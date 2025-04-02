@@ -1,0 +1,9 @@
+{
+  "name": "@geckobot/types",
+  "version": "1.0.0",
+  "description": "Type definitions.",
+  "license": "ISC",
+  "author": "Ciro Scales",
+  "type": "module",
+  "main": "src/index.ts"
+}

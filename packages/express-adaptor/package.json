@@ -1,0 +1,13 @@
+{
+  "name": "@geckobot/express-adaptor",
+  "version": "1.0.0",
+  "description": "An adaptor implementation for the Express backend.",
+  "license": "ISC",
+  "author": "Ciro Scales",
+  "type": "module",
+  "main": "src/index.ts",
+  "devDependencies": {
+    "@geckobot/api-adaptor": "^1.0.0",
+    "@geckobot/types": "^1.0.0"
+  }
+}

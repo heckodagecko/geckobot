@@ -1,0 +1,12 @@
+{
+  "name": "@geckobot/api-adaptor",
+  "version": "1.0.0",
+  "description": "Abstract adaptor definition to help the frontend.",
+  "license": "ISC",
+  "author": "Ciro Scales",
+  "type": "module",
+  "main": "src/index.ts",
+  "devDependencies": {
+    "@geckobot/types": "^1.0.0"
+  }
+}
