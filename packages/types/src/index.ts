@@ -11,7 +11,7 @@ export interface UpdateProject {
 }
 
 export interface Project extends CreateProject {
-  readonly _id: number;
+  readonly id: number;
   name: string;
   description: string | null;
   startedAt: string | null;
@@ -21,14 +21,14 @@ export interface Project extends CreateProject {
 }
 
 export interface ProjectTag {
-  readonly _id: number;
+  readonly id: number;
   name: string;
 }
 
 export type ProjectFileCategory = "exports" | "sources";
 
 export interface ProjectFile {
-  readonly _id: number;
+  readonly id: number;
   category: ProjectFileCategory;
   filename: string;
   mimetype: string;

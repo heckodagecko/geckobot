@@ -1,11 +1,22 @@
-export type SortMode = 'ASC' | 'DESC';
+export type SortMode = "ASC" | "DESC";
 
 export type SortOptions<T extends object> = [keyof T, SortMode][];
 
-export type DeleteMode = 'SOFT' | 'HARD';
+export type DeleteMode = "SOFT" | "HARD";
+
+export interface GetAllOptions<T extends object> {
+  sortBy?: SortOptions<T>;
+  pageNo?: number;
+  pageSize?: number;
+  includeTrashed?: boolean;
+}
 
 export interface GetAllResult<T extends object> {
   data: T[];
+  _paging: {
+    totalCount: number;
+    totalPages: number;
+  };
 }
 
 export interface CreateResult<T extends object> {

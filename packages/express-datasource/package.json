@@ -1,13 +1,13 @@
 {
-  "name": "@geckobot/express-adaptor",
+  "name": "@geckobot/express-datasource",
   "version": "1.0.0",
-  "description": "An adaptor implementation for the Express backend.",
+  "description": "A data source adaptor implementation to communicate with the Express backend.",
   "license": "ISC",
   "author": "Ciro Scales",
   "type": "module",
   "main": "src/index.ts",
   "devDependencies": {
-    "@geckobot/api-adaptor": "^1.0.0",
+    "@geckobot/datasource": "^1.0.0",
     "@geckobot/types": "^1.0.0"
   }
 }

@@ -1,12 +1,15 @@
 {
-  "name": "@geckobot/api-adaptor",
+  "name": "@geckobot/datasource",
   "version": "1.0.0",
-  "description": "Abstract adaptor definition to help the frontend.",
+  "description": "Abstract data source definition for the frontend.",
   "license": "ISC",
   "author": "Ciro Scales",
   "type": "module",
   "main": "src/index.ts",
   "devDependencies": {
     "@geckobot/types": "^1.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.8.4"
   }
 }

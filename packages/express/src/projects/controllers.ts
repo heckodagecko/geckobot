@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-import { prisma } from "../prisma";
+import prisma from "../prisma";
 
 export const getAllProjects = async (req: Request, res: Response) => {
   const pageNo = parseInt(req.query.pageNo as string) || 1;

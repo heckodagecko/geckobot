@@ -1,7 +1,7 @@
 {
   "name": "@geckobot/types",
   "version": "1.0.0",
-  "description": "Type definitions.",
+  "description": "Type definitions for Geckobot.",
   "license": "ISC",
   "author": "Ciro Scales",
   "type": "module",

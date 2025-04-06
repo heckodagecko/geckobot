@@ -10,6 +10,7 @@
     "dev": "npx tsx --env-file=.env --watch src/index.ts"
   },
   "dependencies": {
+    "@prisma/client": "^6.5.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1"
   },
@@ -17,6 +18,7 @@
     "@geckobot/types": "^1.0.0",
     "@types/express": "^5.0.1",
     "@types/node": "^22.14.0",
+    "prisma": "^6.5.0",
     "typescript": "^5.8.2"
   }
 }

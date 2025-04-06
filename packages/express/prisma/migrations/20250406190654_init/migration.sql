@@ -11,7 +11,7 @@ CREATE TABLE "Project" (
 
 -- CreateTable
 CREATE TABLE "ProjectTag" (
-    "_id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL
 );
 
@@ -23,7 +23,7 @@ CREATE TABLE "TaggedProjects" (
 
     PRIMARY KEY ("projectId", "tagId"),
     CONSTRAINT "TaggedProjects_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "TaggedProjects_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "ProjectTag" ("_id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "TaggedProjects_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "ProjectTag" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -31,7 +31,7 @@ CREATE TABLE "_ProjectToProjectTag" (
     "A" INTEGER NOT NULL,
     "B" INTEGER NOT NULL,
     CONSTRAINT "_ProjectToProjectTag_A_fkey" FOREIGN KEY ("A") REFERENCES "Project" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT "_ProjectToProjectTag_B_fkey" FOREIGN KEY ("B") REFERENCES "ProjectTag" ("_id") ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT "_ProjectToProjectTag_B_fkey" FOREIGN KEY ("B") REFERENCES "ProjectTag" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CreateIndex

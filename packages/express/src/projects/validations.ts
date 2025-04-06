@@ -15,7 +15,7 @@ export const projectCreateValidation = [
 ];
 
 export const projectUpdateValidation = [
-  check("body").notEmpty().withMessage("Request body cannot be empty"),
+  check("body").isEmpty().withMessage("Request body cannot be empty"),
   body("name")
     .isString()
     .optional()

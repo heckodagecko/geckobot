@@ -23,7 +23,7 @@ model Project {
 }
 
 model ProjectTag {
-  id             Int              @id @default(autoincrement()) @map("_id")
+  id             Int              @id @default(autoincrement())
   name           String
   projects       Project[]
   TaggedProjects TaggedProjects[]
