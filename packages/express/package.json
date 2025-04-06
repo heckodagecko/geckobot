@@ -10,7 +10,8 @@
     "dev": "npx tsx --env-file=.env --watch src/index.ts"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-validator": "^7.2.1"
   },
   "devDependencies": {
     "@geckobot/types": "^1.0.0",

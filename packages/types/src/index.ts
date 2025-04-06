@@ -4,13 +4,20 @@ export interface CreateProject {
   startedAt?: string | null;
 }
 
-export interface UpdateProject extends CreateProject {}
+export interface UpdateProject {
+  name?: string;
+  description?: string | null;
+  startedAt?: string | null;
+}
 
 export interface Project extends CreateProject {
   readonly _id: number;
-  createdAt?: string;
-  updatedAt?: string;
-  deletedAt?: string | null;
+  name: string;
+  description: string | null;
+  startedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
 }
 
 export interface ProjectTag {
