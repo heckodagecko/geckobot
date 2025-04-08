@@ -1,5 +1,5 @@
-import { ProjectsService } from "./services";
+import type { ProjectsService } from "./services";
 
 export interface Datasource {
-  projects: ProjectsService;
+  readonly projects: ProjectsService;
 }

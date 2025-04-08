@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import { onMounted } from "vue";
+
+import { useProjectsStore } from "@/stores/projects";
+import ProjectDataTable from "@/components/ProjectDataTable.vue";
+
+const projectsStore = useProjectsStore();
+
+onMounted(() => {
+  projectsStore.fetchItems();
+})
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+  <ProjectDataTable />
 </template>

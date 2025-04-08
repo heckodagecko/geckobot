@@ -20,5 +20,8 @@
       "strings": true
     },
     "editor.suggest.insertMode": "replace"
+  },
+  "[vue]": {
+    "editor.tabSize": 2
   }
 }

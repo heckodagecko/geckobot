@@ -1,5 +1,5 @@
 import type {
-  ProjectsService as Service,
+  ProjectsService,
   CreateResult,
   DeleteResult,
   GetAllOptions,
@@ -10,7 +10,7 @@ import type {
 import type { Project, CreateProject, UpdateProject } from "@geckobot/types";
 import type { AxiosInstance } from "axios";
 
-class ProjectsService implements Service {
+export default class ProjectsServiceImpl implements ProjectsService {
   readonly axios: AxiosInstance;
 
   constructor(axios: AxiosInstance) {
@@ -61,5 +61,3 @@ class ProjectsService implements Service {
     return data;
   }
 }
-
-export default ProjectsService;

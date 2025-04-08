@@ -1,6 +1,6 @@
 import type { CreateProject, UpdateProject, Project } from "@geckobot/types";
 
-import {
+import type {
   GetAllOptions,
   GetAllResult,
   CreateResult,
