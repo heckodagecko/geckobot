@@ -6,14 +6,25 @@ import Datasource from '@/services'
 import type { SelectableDataItem } from '@/types'
 
 export const useProjectsStore = defineStore('projects', () => {
-  const loading = ref(false)
-
+  // Data storage
   const items = ref<SelectableDataItem<Project>[]>([])
 
+  // Select logic
   const selectedItems = computed(() => {
-    return items.value.filter(({ selected }) => selected)
+    return items.value.filter(({ selected }) => selected).map(({ data }) => data)
   })
 
+  const allItemsSelected = computed(
+    () => !(items.value.length === 0) && selectedItems.value.length === items.value.length,
+  )
+
+  function selectAllItems() {
+    const state = !allItemsSelected.value
+    for (let i = 0; i < items.value.length; i++) items.value[i].selected = state
+  }
+
+  // Loading data logic
+  const loading = ref(false)
   const currentPage = ref(1)
   const pageSize = ref(10)
   const totalPages = ref(1)
@@ -37,6 +48,14 @@ export const useProjectsStore = defineStore('projects', () => {
     loading.value = false
   }
 
+  function loadPage(pageNo: number) {
+    if (pageNo < 1 || pageNo > totalPages.value) return
+
+    currentPage.value = pageNo
+
+    fetchItems()
+  }
+
   function loadNextPage() {
     if (currentPage.value === totalPages.value) return
 
@@ -54,12 +73,15 @@ export const useProjectsStore = defineStore('projects', () => {
   }
 
   return {
-    loading: readonly(loading),
     items: readonly(items),
     selectedItems,
+    allItemsSelected,
+    selectAllItems,
+    loading: readonly(loading),
     currentPage: readonly(currentPage),
     totalPages: readonly(totalPages),
     fetchItems,
+    loadPage,
     loadNextPage,
     loadPreviousPage,
   }

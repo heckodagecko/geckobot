@@ -7,45 +7,34 @@ import type {
   ProjectsService,
   UpdateResult,
 } from '@geckobot/datasource'
+import { faker } from '@faker-js/faker'
 import type { Project, CreateProject, UpdateProject } from '@geckobot/types'
 
-export default class MockProjectsService implements ProjectsService {
-  items: Project[] = [
-    {
-      id: 1,
-      name: 'Mock Project 1',
-      description: 'Description of mock project 1',
-      startedAt: new Date().toISOString(),
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      deletedAt: null,
-    },
-    {
-      id: 2,
-      name: 'Mock Project 2',
-      description: 'Description of mock project 2',
-      startedAt: null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      deletedAt: null,
-    },
-    {
-      id: 3,
-      name: 'Mock Project 3',
-      description: 'Description of mock project 3',
-      startedAt: null,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      deletedAt: new Date().toISOString(),
-    },
-  ]
+const items: Project[] = []
 
+function createProject(): Project {
+  return {
+    id: items.length,
+    name: faker.lorem.words(3),
+    description: faker.lorem.sentence(),
+    startedAt: Math.random() > 0.75 ? null : faker.date.past().toISOString(),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    deletedAt: null,
+  }
+}
+
+for (let i = 0; i < 150; i++) {
+  items.push(createProject())
+}
+
+export default class MockProjectsService implements ProjectsService {
   getAll(options: GetAllOptions<Project> = {}): Promise<GetAllResult<Project>> {
     const pageNo = options.pageNo || 1
     const pageSize = options.pageSize || 10
     const includeTrashed = Boolean(options.includeTrashed)
 
-    const filteredItems = this.items.filter(({ deletedAt }) =>
+    const filteredItems = items.filter(({ deletedAt }) =>
       !includeTrashed ? deletedAt === null : true,
     )
 
@@ -62,7 +51,7 @@ export default class MockProjectsService implements ProjectsService {
   }
 
   get(id: Project['id']): Promise<Project> {
-    const project = this.items.find((p) => p.id === id)
+    const project = items.find((p) => p.id === id)
     if (project) return Promise.resolve(project)
     return Promise.reject(new Error('Project not found'))
   }
