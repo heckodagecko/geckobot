@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { onMounted, ref } from 'vue'
 
+import AppModal from '@/components/AppModal.vue'
+import ProjectDataTable from '@/components/NewProjectDataTable.vue'
+import ProjectForm from '@/components/ProjectForm.vue'
 import { useProjectsStore } from '@/stores/projects'
-import ProjectDataTable from '@/components/ProjectDataTable.vue'
 
 const projectsStore = useProjectsStore()
+
+const formModal = ref<InstanceType<typeof AppModal> | null>(null)
 
 onMounted(() => {
   projectsStore.fetchItems()
@@ -13,6 +19,21 @@ onMounted(() => {
 
 <template>
   <div class="container mx-auto px-4">
-    <ProjectDataTable />
+    <div>
+      <button class="btn btn-primary" @click="() => formModal?.show()">
+        <FontAwesomeIcon :icon="faPlus" class="mr-2" />
+        Create project
+      </button>
+    </div>
+    <div class="mt-4">
+      <ProjectDataTable />
+    </div>
   </div>
+  <AppModal ref="formModal">
+    <div class="modal-box">
+      <div class="p-4">
+        <ProjectForm />
+      </div>
+    </div>
+  </AppModal>
 </template>

@@ -3,11 +3,11 @@ import { ref, computed, readonly } from 'vue'
 import type { Project } from '@geckobot/types'
 
 import Datasource from '@/services'
-import type { SelectableDataItem } from '@/types'
+import type { DataItem } from '@/types'
 
 export const useProjectsStore = defineStore('projects', () => {
   // Data storage
-  const items = ref<SelectableDataItem<Project>[]>([])
+  const items = ref<DataItem<Project>[]>([])
 
   // Select logic
   const selectedItems = computed(() => {

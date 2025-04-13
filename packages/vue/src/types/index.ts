@@ -1,4 +1,6 @@
-export interface SelectableDataItem<T extends object> {
-  selected: boolean
+export interface DataItem<T extends object> {
+  selected?: boolean
   data: T
 }
+
+export type DataFormMode = 'CREATE' | 'UPDATE'

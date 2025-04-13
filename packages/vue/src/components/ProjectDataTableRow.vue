@@ -46,5 +46,8 @@ defineProps<{
         {{ timeAgo }}
       </UseTimeAgo>
     </td>
+    <td v-if="$slots.default">
+      <slot></slot>
+    </td>
   </tr>
 </template>
