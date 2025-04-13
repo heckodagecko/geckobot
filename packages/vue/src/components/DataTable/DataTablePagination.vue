@@ -2,21 +2,23 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faChevronLeft, faChevronRight, faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
-import { useProjectsStore } from '@/stores/projects'
+import { middleSequence } from '@/utils'
 
-const projectsStore = useProjectsStore()
+interface DataTablePaginationProps {
+  currentPage: number
+  totalPages: number
+}
+
+interface DataTablePaginationEvents {
+  (event: 'nextPage'): void
+  (event: 'goToPage', value: number): void
+  (event: 'previousPage'): void
+}
+
+defineProps<DataTablePaginationProps>()
+defineEmits<DataTablePaginationEvents>()
 
 const slots = 4
-
-const middleSequence = (middle: number, count: number, min: number, max: number) => {
-  const sequence = []
-  for (let i = middle - count; i <= middle + count; i++) {
-    if (i >= min && i <= max) {
-      sequence.push(i)
-    }
-  }
-  return sequence
-}
 
 function getPageNumbers(currentPage: number, totalPages: number) {
   const pages: (number | null)[] = middleSequence(currentPage, slots, 1, totalPages)
@@ -43,34 +45,23 @@ function getPageNumbers(currentPage: number, totalPages: number) {
 
 <template>
   <div class="join">
-    <button
-      v-if="projectsStore.currentPage > 1"
-      class="join-item btn"
-      @click="() => projectsStore.loadPreviousPage()"
-    >
+    <button v-if="currentPage > 1" class="join-item btn" @click="() => $emit('previousPage')">
       <FontAwesomeIcon :icon="faChevronLeft" />
     </button>
-    <template
-      v-for="(pageNo, index) in getPageNumbers(projectsStore.currentPage, projectsStore.totalPages)"
-      :key="index"
-    >
+    <template v-for="page in getPageNumbers(currentPage, totalPages)">
       <button
-        v-if="pageNo != null"
+        v-if="page"
         class="join-item btn"
-        :class="{ 'btn-active': projectsStore.currentPage === pageNo }"
-        @click="() => projectsStore.loadPage(pageNo)"
+        :class="{ 'btn-active': currentPage === page }"
+        @click="() => $emit('goToPage', page)"
       >
-        {{ pageNo }}
+        {{ page }}
       </button>
       <button v-else class="join-item btn btn-disabled">
         <FontAwesomeIcon :icon="faEllipsis" />
       </button>
     </template>
-    <button
-      v-if="projectsStore.currentPage < projectsStore.totalPages"
-      class="join-item btn"
-      @click="() => projectsStore.loadNextPage()"
-    >
+    <button v-if="currentPage < totalPages" class="join-item btn" @click="() => $emit('nextPage')">
       <FontAwesomeIcon :icon="faChevronRight" />
     </button>
   </div>

@@ -4,7 +4,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { onMounted, ref } from 'vue'
 
 import AppModal from '@/components/AppModal.vue'
-import ProjectDataTable from '@/components/NewProjectDataTable.vue'
+import ProjectDataTable from '@/components/ProjectDataTable.vue'
 import ProjectForm from '@/components/ProjectForm.vue'
 import { useProjectsStore } from '@/stores/projects'
 
@@ -13,7 +13,7 @@ const projectsStore = useProjectsStore()
 const formModal = ref<InstanceType<typeof AppModal> | null>(null)
 
 onMounted(() => {
-  projectsStore.fetchItems()
+  projectsStore.loadItems()
 })
 </script>
 

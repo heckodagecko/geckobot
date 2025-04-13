@@ -1,36 +1,20 @@
 import { defineStore } from 'pinia'
-import { ref, computed, readonly } from 'vue'
+import { ref, readonly } from 'vue'
 import type { Project } from '@geckobot/types'
 
 import Datasource from '@/services'
-import type { DataItem } from '@/types'
 
 export const useProjectsStore = defineStore('projects', () => {
-  // Data storage
-  const items = ref<DataItem<Project>[]>([])
-
-  // Select logic
-  const selectedItems = computed(() => {
-    return items.value.filter(({ selected }) => selected).map(({ data }) => data)
-  })
-
-  const allItemsSelected = computed(
-    () => !(items.value.length === 0) && selectedItems.value.length === items.value.length,
-  )
-
-  function selectAllItems() {
-    const state = !allItemsSelected.value
-    for (let i = 0; i < items.value.length; i++) items.value[i].selected = state
-  }
-
-  // Loading data logic
   const loading = ref(false)
-  const currentPage = ref(1)
-  const pageSize = ref(10)
-  const totalPages = ref(1)
+
+  const items = ref<Project[]>([])
   const totalItems = ref(1)
 
-  async function fetchItems() {
+  const pageSize = ref(10)
+  const currentPage = ref(1)
+  const totalPages = ref(1)
+
+  async function loadItems() {
     loading.value = true
 
     const {
@@ -41,7 +25,7 @@ export const useProjectsStore = defineStore('projects', () => {
       pageSize: pageSize.value,
     })
 
-    items.value = data.map((item) => ({ selected: false, data: item }))
+    items.value = data
     totalPages.value = _totalPages
     totalItems.value = totalCount
 
@@ -53,7 +37,7 @@ export const useProjectsStore = defineStore('projects', () => {
 
     currentPage.value = pageNo
 
-    fetchItems()
+    loadItems()
   }
 
   function loadNextPage() {
@@ -61,7 +45,7 @@ export const useProjectsStore = defineStore('projects', () => {
 
     currentPage.value++
 
-    fetchItems()
+    loadItems()
   }
 
   function loadPreviousPage() {
@@ -69,18 +53,17 @@ export const useProjectsStore = defineStore('projects', () => {
 
     currentPage.value--
 
-    fetchItems()
+    loadItems()
   }
 
   return {
-    items: readonly(items),
-    selectedItems,
-    allItemsSelected,
-    selectAllItems,
     loading: readonly(loading),
+    items: readonly(items),
+    totalItems: readonly(totalItems),
+    pageSize: readonly(pageSize),
     currentPage: readonly(currentPage),
     totalPages: readonly(totalPages),
-    fetchItems,
+    loadItems,
     loadPage,
     loadNextPage,
     loadPreviousPage,
