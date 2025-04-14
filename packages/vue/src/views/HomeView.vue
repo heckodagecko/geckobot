@@ -73,5 +73,8 @@ const formDefault: CreateProject = {
         <ProjectForm v-model="formProject" :mode="formMode" />
       </div>
     </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>Close</button>
+    </form>
   </AppModal>
 </template>

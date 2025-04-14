@@ -18,7 +18,7 @@ interface DataTablePaginationEvents {
 defineProps<DataTablePaginationProps>()
 defineEmits<DataTablePaginationEvents>()
 
-const slots = 4
+const slots = 3
 
 function getPageNumbers(currentPage: number, totalPages: number) {
   const pages: (number | null)[] = middleSequence(currentPage, slots, 1, totalPages)
@@ -45,23 +45,31 @@ function getPageNumbers(currentPage: number, totalPages: number) {
 
 <template>
   <div class="join">
-    <button v-if="currentPage > 1" class="join-item btn" @click="() => $emit('previousPage')">
+    <button
+      v-if="currentPage > 1"
+      class="join-item btn btn-ghost"
+      @click="() => $emit('previousPage')"
+    >
       <FontAwesomeIcon :icon="faChevronLeft" />
     </button>
     <template v-for="page in getPageNumbers(currentPage, totalPages)">
       <button
         v-if="page"
-        class="join-item btn"
+        class="join-item btn btn-ghost"
         :class="{ 'btn-active': currentPage === page }"
         @click="() => $emit('goToPage', page)"
       >
         {{ page }}
       </button>
-      <button v-else class="join-item btn btn-disabled">
+      <button v-else class="join-item btn btn-ghost btn-disabled">
         <FontAwesomeIcon :icon="faEllipsis" />
       </button>
     </template>
-    <button v-if="currentPage < totalPages" class="join-item btn" @click="() => $emit('nextPage')">
+    <button
+      v-if="currentPage < totalPages"
+      class="join-item btn btn-ghost"
+      @click="() => $emit('nextPage')"
+    >
       <FontAwesomeIcon :icon="faChevronRight" />
     </button>
   </div>

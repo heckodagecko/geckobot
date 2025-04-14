@@ -87,7 +87,16 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
       </template>
     </DataTable>
   </div>
-  <div class="mt-4 text-center">
+  <div class="mt-4 flex flex-row justify-between">
+    <div class="inline-flex items-center space-x-2">
+      <select class="select w-auto">
+        <option selected>10</option>
+        <option>25</option>
+        <option>50</option>
+        <option>100</option>
+      </select>
+      <span>Entries per page</span>
+    </div>
     <DataTablePagination
       :current-page="projectsStore.currentPage"
       :total-pages="projectsStore.totalPages"
