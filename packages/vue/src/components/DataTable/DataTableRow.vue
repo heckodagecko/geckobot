@@ -17,7 +17,7 @@ const keys = props.columns != null ? props.columns : (Object.keys(props.data) as
 </script>
 
 <template>
-  <tr :class="[selected ? 'bg-base-300' : 'hover:bg-base-300']">
+  <tr :class="[selectable && selected ? 'bg-base-300' : 'hover:bg-base-300']">
     <td v-if="selectable">
       <input
         type="checkbox"

@@ -1,36 +1,39 @@
-<script lang="ts">
-const defaultData: CreateProject = {
-  name: 'Untitled',
-  startedAt: new Date().toISOString().slice(0, 16),
-}
-</script>
-
 <script setup lang="ts">
+import { ref } from 'vue'
 import type { CreateProject, UpdateProject } from '@geckobot/types'
 
 import type { DataFormMode } from '@/types'
 
-withDefaults(
-  defineProps<{
-    modelValue: CreateProject | UpdateProject
-    mode: DataFormMode
-  }>(),
-  { modelValue: () => defaultData, mode: 'CREATE' },
-)
-
-const emit = defineEmits<{
-  (e: 'update:modelValue', value: CreateProject | UpdateProject): void
-}>()
-
-function resetForm() {
-  emit('update:modelValue', defaultData)
+interface ProjectFormProps {
+  modelValue?: CreateProject | UpdateProject
+  mode?: DataFormMode
 }
 
-defineExpose({ resetForm })
+interface ProjectFormEvents {
+  (event: 'update:modelValue', data: CreateProject | UpdateProject): void
+}
+
+withDefaults(defineProps<ProjectFormProps>(), {
+  modelValue: () => ({
+    name: '',
+    description: null,
+    startedAt: null,
+  }),
+  mode: 'CREATE',
+})
+defineEmits<ProjectFormEvents>()
+
+const form = ref<HTMLFormElement | null>(null)
+
+function reset() {
+  form.value?.reset()
+}
+
+defineExpose({ reset })
 </script>
 
 <template>
-  <form @submit.prevent="() => console.log(modelValue)">
+  <form @submit.prevent="() => console.log(modelValue)" ref="form">
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Name</legend>
       <label class="input validator w-full">
@@ -38,13 +41,11 @@ defineExpose({ resetForm })
       </label>
       <div class="validator-hint hidden mt-0">Name is required</div>
     </fieldset>
-
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Start date</legend>
       <input type="datetime-local" v-model="modelValue.startedAt" class="input w-full" />
       <label class="fieldset-label">When this project started?</label>
     </fieldset>
-
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Description</legend>
       <textarea
@@ -54,10 +55,5 @@ defineExpose({ resetForm })
       ></textarea>
       <label class="fieldset-label">This field is optional</label>
     </fieldset>
-
-    <div class="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0 pt-2">
-      <button value="cancel" formmethod="dialog" class="btn">Cancel</button>
-      <button class="btn btn-primary">Create</button>
-    </div>
   </form>
 </template>

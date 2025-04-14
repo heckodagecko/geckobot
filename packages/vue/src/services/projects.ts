@@ -14,7 +14,7 @@ const items: Project[] = []
 
 function createProject(): Project {
   return {
-    id: items.length,
+    id: items.length + 1,
     name: faker.lorem.words(3),
     description: faker.lorem.sentence(),
     startedAt: Math.random() > 0.75 ? null : faker.date.past().toISOString(),
