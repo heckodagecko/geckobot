@@ -8,26 +8,28 @@ import AppModal from '@/components/AppModal.vue'
 import ProjectDataTable from '@/components/ProjectDataTable.vue'
 import ProjectForm from '@/components/ProjectForm.vue'
 import { useProjectsStore } from '@/stores/projects'
-import type { DataFormMode } from '@/types'
+import { DataFormMode } from '@/types'
 
 const projectsStore = useProjectsStore()
+
+const datatable = ref<InstanceType<typeof ProjectDataTable> | null>(null)
 
 const formModal = ref<InstanceType<typeof AppModal> | null>(null)
 
 const form = ref<InstanceType<typeof ProjectForm> | null>(null)
-const formProject = ref<CreateProject | UpdateProject>(formDefault)
-const formMode = ref<DataFormMode>('CREATE')
+const formProject = ref<CreateProject | UpdateProject>(formDefault())
+const formMode = ref<DataFormMode>(DataFormMode.Create)
 
 function setCreate() {
   form.value?.reset()
-  formProject.value = formDefault
-  formMode.value = 'CREATE'
+  formProject.value = formDefault()
+  formMode.value = DataFormMode.Create
 }
 
 function setEdit(data: Project) {
   form.value?.reset()
-  formProject.value = data
-  formMode.value = 'UPDATE'
+  formProject.value = JSON.parse(JSON.stringify(data))
+  formMode.value = DataFormMode.Update
 }
 
 function handleEdit(data: Project) {
@@ -45,10 +47,10 @@ onMounted(() => {
 </script>
 
 <script lang="ts">
-const formDefault: CreateProject = {
+const formDefault: () => CreateProject = () => ({
   name: 'Untitled',
   startedAt: new Date().toISOString().slice(0, 16),
-}
+})
 </script>
 
 <template>
@@ -64,13 +66,22 @@ const formDefault: CreateProject = {
       </button>
     </div>
     <div class="mt-4">
-      <ProjectDataTable @edit="handleEdit" />
+      <ProjectDataTable @edit="handleEdit" ref="datatable" />
     </div>
   </div>
   <AppModal @close="setCreate" ref="formModal">
     <div class="modal-box">
       <div class="p-4">
         <ProjectForm v-model="formProject" :mode="formMode" />
+        <div class="flex sm:flex-row sm:space-x-2 sm:justify-end flex-col space-y-2 pt-2">
+          <button class="btn" @click="formModal?.hide()">Cancel</button>
+          <button
+            class="btn"
+            :class="[formMode === DataFormMode.Create ? 'btn-primary' : 'btn-secondary']"
+          >
+            {{ formMode }}
+          </button>
+        </div>
       </div>
     </div>
     <form method="dialog" class="modal-backdrop">

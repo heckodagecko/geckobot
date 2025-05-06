@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import type { CreateProject, UpdateProject } from '@geckobot/types'
 
-import type { DataFormMode } from '@/types'
+import { DataFormMode } from '@/types'
 
 interface ProjectFormProps {
   modelValue?: CreateProject | UpdateProject
@@ -19,7 +19,7 @@ withDefaults(defineProps<ProjectFormProps>(), {
     description: null,
     startedAt: null,
   }),
-  mode: 'CREATE',
+  mode: DataFormMode.Create,
 })
 defineEmits<ProjectFormEvents>()
 

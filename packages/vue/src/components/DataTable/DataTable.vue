@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends object">
-import { computed, ref, watch } from 'vue'
+import { computed, readonly, ref, watch } from 'vue'
 import type { Ref } from 'vue'
 
 import DataTableHeader from '@/components/DataTable/DataTableHeader.vue'
@@ -76,6 +76,8 @@ watch(
     }
   },
 )
+
+defineExpose({ selectedItems: readonly(selectedItems) })
 </script>
 
 <template>

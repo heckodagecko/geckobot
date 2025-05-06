@@ -3,4 +3,20 @@ export interface DataItem<T extends object> {
   data: T
 }
 
-export type DataFormMode = 'CREATE' | 'UPDATE'
+export enum DataFormMode {
+  Create = 'Create',
+  Update = 'Update',
+}
+
+export enum NotificationType {
+  Default,
+  Info,
+  Success,
+  Warning,
+  Error,
+}
+
+export interface Notification {
+  type: NotificationType
+  message: string
+}
