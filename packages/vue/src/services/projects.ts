@@ -75,10 +75,38 @@ export default class MockProjectsService implements ProjectsService {
 
   update(id: Project['id'], data: UpdateProject): Promise<UpdateResult<Project>> {
     const index = items.findIndex(({ id: _id }) => _id === id)
-    throw new Error('Method not implemented.')
+    if (index === -1) {
+      return Promise.reject(new Error('Project not found'))
+    }
+
+    const project: Project = {
+      ...items[index],
+      ...data,
+      updatedAt: new Date().toISOString(),
+    }
+    items[index] = project
+
+    return new Promise((resolve) => setTimeout(resolve, 500)).then(() => ({
+      message: 'Project has been updated successfully',
+      data: project,
+    }))
   }
 
   delete(id: Project['id'], mode: DeleteMode = 'SOFT'): Promise<DeleteResult> {
-    throw new Error('Method not implemented.')
+    const index = items.findIndex(({ id: _id }) => _id === id)
+    if (index === -1) {
+      return Promise.reject(new Error('Project not found'))
+    }
+
+    if (mode === 'HARD') {
+      items.splice(index, 1)
+    } else {
+      items[index].deletedAt = new Date().toISOString()
+    }
+
+    return new Promise((resolve) => setTimeout(resolve, 500)).then(() => ({
+      message:
+        mode === 'HARD' ? 'Project has been permanently deleted' : 'Project has been archived',
+    }))
   }
 }

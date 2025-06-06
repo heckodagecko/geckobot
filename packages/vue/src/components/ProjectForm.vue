@@ -33,7 +33,7 @@ defineExpose({ reset })
 </script>
 
 <template>
-  <form @submit.prevent="() => console.log(modelValue)" ref="form">
+  <form @submit.prevent ref="form">
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Name</legend>
       <label class="input validator w-full">
