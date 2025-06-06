@@ -34,25 +34,25 @@ export const useProjectsStore = defineStore('projects', () => {
 
   function loadPage(pageNo: number) {
     if (pageNo < 1 || pageNo > totalPages.value) return
-
     currentPage.value = pageNo
-
     loadItems()
   }
 
   function loadNextPage() {
     if (currentPage.value === totalPages.value) return
-
     currentPage.value++
-
     loadItems()
   }
 
   function loadPreviousPage() {
     if (currentPage.value === 1) return
-
     currentPage.value--
+    loadItems()
+  }
 
+  function setPageSize(size: number) {
+    pageSize.value = size
+    currentPage.value = 1
     loadItems()
   }
 
@@ -67,5 +67,6 @@ export const useProjectsStore = defineStore('projects', () => {
     loadPage,
     loadNextPage,
     loadPreviousPage,
+    setPageSize,
   }
 })

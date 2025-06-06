@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import type { Project } from '@geckobot/types'
 
 import DataTable from '@/components/DataTable/DataTable.vue'
+import DataTablePageSize from '@/components/DataTable/DataTablePageSize.vue'
 import DataTablePagination from '@/components/DataTable/DataTablePagination.vue'
 import { useProjectsStore } from '@/stores/projects'
 
@@ -88,16 +89,12 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
     </DataTable>
   </div>
   <div class="mt-4 flex flex-row justify-between">
-    <div class="inline-flex items-center space-x-2">
-      <select class="select w-auto">
-        <option selected>10</option>
-        <option>25</option>
-        <option>50</option>
-        <option>100</option>
-      </select>
-      <span>Entries per page</span>
-    </div>
+    <DataTablePageSize
+      :options="[10, 25, 50]"
+      @change="(pageSize) => projectsStore.setPageSize(pageSize)"
+    />
     <DataTablePagination
+      :disabled="projectsStore.loading"
       :current-page="projectsStore.currentPage"
       :total-pages="projectsStore.totalPages"
       @go-to-page="(page) => projectsStore.loadPage(page)"

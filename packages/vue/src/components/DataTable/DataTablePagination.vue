@@ -7,6 +7,7 @@ import { middleSequence } from '@/utils'
 interface DataTablePaginationProps {
   currentPage: number
   totalPages: number
+  disabled?: boolean
 }
 
 interface DataTablePaginationEvents {
@@ -48,6 +49,7 @@ function getPageNumbers(currentPage: number, totalPages: number) {
     <button
       v-if="currentPage > 1"
       class="join-item btn btn-ghost"
+      :disabled="disabled"
       @click="() => $emit('previousPage')"
     >
       <FontAwesomeIcon :icon="faChevronLeft" />
@@ -57,6 +59,7 @@ function getPageNumbers(currentPage: number, totalPages: number) {
         v-if="page"
         class="join-item btn btn-ghost"
         :class="{ 'btn-active': currentPage === page }"
+        :disabled="disabled"
         @click="() => $emit('goToPage', page)"
       >
         {{ page }}
@@ -68,6 +71,7 @@ function getPageNumbers(currentPage: number, totalPages: number) {
     <button
       v-if="currentPage < totalPages"
       class="join-item btn btn-ghost"
+      :disabled="disabled"
       @click="() => $emit('nextPage')"
     >
       <FontAwesomeIcon :icon="faChevronRight" />
