@@ -2,5 +2,10 @@
   "name": "@geckobot/root",
   "version": "1.0.0",
   "private": true,
-  "workspaces": ["packages/*"]
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev": "cd packages/vue ; npm run dev",
+    "start": "cd packages/express ; npm run dev",
+    "migrate": "cd packages/express ; prisma migrate dev"
+  }
 }
