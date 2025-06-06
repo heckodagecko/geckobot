@@ -10,7 +10,7 @@ export interface UpdateProject {
   startedAt?: string | null;
 }
 
-export interface Project extends CreateProject {
+export interface Project {
   readonly id: number;
   name: string;
   description: string | null;

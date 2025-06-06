@@ -56,11 +56,25 @@ export default class MockProjectsService implements ProjectsService {
     return Promise.reject(new Error('Project not found'))
   }
 
-  create(data: CreateProject): Promise<CreateResult<Project>> {
-    throw new Error('Method not implemented.')
+  create({ name, description, startedAt }: CreateProject): Promise<CreateResult<Project>> {
+    const project: Project = {
+      id: items.length + 1,
+      name,
+      description: description ?? null,
+      startedAt: startedAt ?? null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      deletedAt: null,
+    }
+    items.push(project)
+    return new Promise((resolve) => setTimeout(resolve, 500)).then(() => ({
+      message: 'Project has been successfully created',
+      data: project,
+    }))
   }
 
   update(id: Project['id'], data: UpdateProject): Promise<UpdateResult<Project>> {
+    const index = items.findIndex(({ id: _id }) => _id === id)
     throw new Error('Method not implemented.')
   }
 
