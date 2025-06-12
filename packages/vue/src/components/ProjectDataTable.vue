@@ -88,7 +88,7 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
       </template>
     </DataTable>
   </div>
-  <div class="mt-4 flex flex-row justify-between">
+  <div class="mt-4 flex flex-col sm:flex-row sm:justify-between items-center gap-4">
     <DataTablePageSize
       :options="[10, 25, 50]"
       @change="(pageSize) => projectsStore.setPageSize(pageSize)"

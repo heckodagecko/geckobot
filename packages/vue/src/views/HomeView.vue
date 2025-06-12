@@ -90,10 +90,6 @@ onMounted(() => {
         <FontAwesomeIcon :icon="faPlus" class="h-5 w-5" />
         Create project
       </button>
-      <button class="btn btn-error" disabled @click="() => formModal?.show()">
-        <FontAwesomeIcon :icon="faBoxArchive" class="h-5 w-5" />
-        Archive selected
-      </button>
     </div>
     <div class="mt-4">
       <ProjectDataTable @edit="handleEdit" ref="datatable" />

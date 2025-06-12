@@ -66,7 +66,7 @@ export default class MockProjectsService implements ProjectsService {
       updatedAt: new Date().toISOString(),
       deletedAt: null,
     }
-    items.push(project)
+    items.unshift(project)
     return new Promise((resolve) => setTimeout(resolve, 500)).then(() => ({
       message: 'Project has been successfully created',
       data: project,
