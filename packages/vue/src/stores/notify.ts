@@ -14,18 +14,28 @@ export const useNotifyStore = defineStore('notify', () => {
 
   function notify(what: Notification, interval: number = 5000) {
     const index = notifications.push({ data: what }) - 1
-    const timer = new Timer(() => removeNotification(index), interval)
+    const timer = new Timer(() => remove(index), interval)
     notifications[index].timer = timer
     timer.resume()
   }
 
-  function removeNotification(index: number) {
+  function pause(index: number) {
+    notifications[index].timer?.pause()
+  }
+
+  function resume(index: number) {
+    notifications[index].timer?.resume()
+  }
+
+  function remove(index: number) {
     notifications.splice(index, 1)
   }
 
   return {
     notifications: readonly(notifications),
     notify,
-    removeNotification,
+    pause,
+    resume,
+    remove,
   }
 })

@@ -15,9 +15,9 @@ const notifyStore = useNotifyStore()
       :type="notification.data.type"
       :closable="true"
       :key="index"
-      @close="notifyStore.removeNotification(index)"
-      @mouseenter="notification.timer?.pause()"
-      @mouseleave="notification.timer?.resume()"
+      @close="notifyStore.remove(index)"
+      @mouseenter="notifyStore.pause(index)"
+      @mouseleave="notifyStore.resume(index)"
     >
       {{ notification.data.message }}
     </AppNotification>
