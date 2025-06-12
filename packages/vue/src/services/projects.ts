@@ -35,7 +35,7 @@ export default class MockProjectsService implements ProjectsService {
     const includeTrashed = Boolean(options.includeTrashed)
 
     const filteredItems = items.filter(({ deletedAt }) =>
-      !includeTrashed ? deletedAt === null : true,
+      !includeTrashed ? deletedAt == null : true,
     )
 
     const startIndex = (pageNo - 1) * pageSize

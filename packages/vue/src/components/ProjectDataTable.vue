@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { UseTimeAgo } from '@vueuse/components'
-import { faBoxArchive, faEllipsis, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faBoxArchive, faEllipsis, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import type { Project } from '@geckobot/types'
 
@@ -9,16 +9,22 @@ import DataTablePageSize from '@/components/DataTable/DataTablePageSize.vue'
 import DataTablePagination from '@/components/DataTable/DataTablePagination.vue'
 import { useProjectsStore } from '@/stores/projects'
 
+interface ProjectDataTableProps {
+  loadingActions?: boolean
+}
+
 interface ProjectDataTableEvents {
   (event: 'edit', data: Project): void
   (event: 'archive', data: Project): void
+  (event: 'delete', data: Project): void
 }
 
+defineProps<ProjectDataTableProps>()
 defineEmits<ProjectDataTableEvents>()
 
 const projectsStore = useProjectsStore()
 
-const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
+const dtFormat = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
   month: 'long',
   day: 'numeric',
@@ -38,9 +44,23 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
         ['updatedAt', 'Last modified'],
       ]"
     >
+      <template #item.name="{ item }">
+        <div class="flex justify-between items-center gap-2">
+          <div>{{ item.name }}</div>
+          <div
+            v-if="item.deletedAt != null"
+            class="tooltip"
+            :data-tip="`Archived at ${dtFormat.format(new Date(item.deletedAt))}`"
+          >
+            <div class="badge badge-soft badge-error">
+              <FontAwesomeIcon :icon="faBoxArchive" class="size-[1em]" />
+            </div>
+          </div>
+        </div>
+      </template>
       <template #item.startedAt="{ item }">
         <template v-if="item.startedAt != null">
-          <div class="tooltip" :data-tip="dateTimeFormat.format(new Date(item.startedAt))">
+          <div class="tooltip" :data-tip="dtFormat.format(new Date(item.startedAt))">
             <UseTimeAgo #="{ timeAgo }" :time="new Date(item.startedAt)">
               {{ timeAgo }}
             </UseTimeAgo>
@@ -48,14 +68,14 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
         </template>
       </template>
       <template #item.createdAt="{ item }">
-        <div class="tooltip" :data-tip="dateTimeFormat.format(new Date(item.createdAt))">
+        <div class="tooltip" :data-tip="dtFormat.format(new Date(item.createdAt))">
           <UseTimeAgo #="{ timeAgo }" :time="new Date(item.createdAt)">
             {{ timeAgo }}
           </UseTimeAgo>
         </div>
       </template>
       <template #item.updatedAt="{ item }">
-        <div class="tooltip" :data-tip="dateTimeFormat.format(new Date(item.updatedAt))">
+        <div class="tooltip" :data-tip="dtFormat.format(new Date(item.updatedAt))">
           <UseTimeAgo #="{ timeAgo }" :time="new Date(item.updatedAt)">
             {{ timeAgo }}
           </UseTimeAgo>
@@ -69,19 +89,30 @@ const dateTimeFormat = new Intl.DateTimeFormat('en-US', {
           </div>
           <ul
             tabindex="0"
-            class="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+            class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 p-2 shadow-lg"
           >
-            <li>
-              <a @click="$emit('edit', item)">
-                <FontAwesomeIcon :icon="faPencil" class="h-5 w-5" />
-                Edit
-              </a>
-            </li>
-            <li>
-              <a class="text-error" @click="$emit('archive', item)">
-                <FontAwesomeIcon :icon="faBoxArchive" class="h-5 w-5" />
-                Archive
-              </a>
+            <template v-if="!loadingActions">
+              <li>
+                <a @click="$emit('edit', item)">
+                  <FontAwesomeIcon :icon="faPencil" class="h-5 w-5" />
+                  Edit
+                </a>
+              </li>
+              <li v-if="item.deletedAt == null">
+                <a class="text-error" @click="$emit('archive', item)">
+                  <FontAwesomeIcon :icon="faBoxArchive" class="h-5 w-5" />
+                  Archive
+                </a>
+              </li>
+              <li v-else>
+                <a class="text-error" @click="$emit('delete', item)">
+                  <FontAwesomeIcon :icon="faTrash" class="h-5 w-5" />
+                  Delete
+                </a>
+              </li>
+            </template>
+            <li v-else class="flex items-center">
+              <span class="loading loading-ring loading-lg"></span>
             </li>
           </ul>
         </div>

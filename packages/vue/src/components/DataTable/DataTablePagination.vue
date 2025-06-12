@@ -24,6 +24,10 @@ const slots = 3
 function getPageNumbers(currentPage: number, totalPages: number) {
   const pages: (number | null)[] = middleSequence(currentPage, slots, 1, totalPages)
 
+  if (pages.length <= slots) {
+    return pages
+  }
+
   if (pages[0] !== 1) {
     pages[0] = 1
   }

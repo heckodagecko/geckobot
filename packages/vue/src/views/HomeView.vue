@@ -7,7 +7,7 @@ const formDefault: () => CreateProject = () => ({
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faBoxArchive, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
 import { onMounted, ref } from 'vue'
 import type { CreateResult, UpdateResult } from '@geckobot/datasource'
 import type { CreateProject, Project, UpdateProject } from '@geckobot/types'
@@ -48,6 +48,42 @@ function handleEdit(data: Project) {
   formModal.value?.show()
 }
 
+const loadingActions = ref(false)
+
+async function handleArchive({ id }: Project) {
+  loadingActions.value = true
+
+  try {
+    const { message } = await Datasource.projects.delete(id, 'SOFT')
+    projectsStore.loadItems()
+    notifyStore.notify({ type: NotificationType.Success, message })
+  } catch (error: any) {
+    notifyStore.notify({
+      type: NotificationType.Error,
+      message: error?.message || 'Something went wrong',
+    })
+  }
+
+  loadingActions.value = false
+}
+
+async function handleDelete({ id }: Project) {
+  loadingActions.value = true
+
+  try {
+    const { message } = await Datasource.projects.delete(id, 'HARD')
+    projectsStore.loadItems()
+    notifyStore.notify({ type: NotificationType.Success, message })
+  } catch (error: any) {
+    notifyStore.notify({
+      type: NotificationType.Error,
+      message: error?.message || 'Something went wrong',
+    })
+  }
+
+  loadingActions.value = false
+}
+
 const submitLoading = ref(false)
 
 async function handleSubmit() {
@@ -79,6 +115,7 @@ async function handleSubmit() {
 }
 
 onMounted(() => {
+  // projectsStore.setIncludeTrashed(true)
   projectsStore.loadItems()
 })
 </script>
@@ -91,8 +128,20 @@ onMounted(() => {
         Create project
       </button>
     </div>
+    <label class="input w-full mt-4">
+      <FontAwesomeIcon :icon="faSearch" class="h-[1em] opacity-50" />
+      <input type="search" class="grow" placeholder="Search" />
+      <kbd class="kbd kbd-sm">⌘</kbd>
+      <kbd class="kbd kbd-sm">K</kbd>
+    </label>
     <div class="mt-4">
-      <ProjectDataTable @edit="handleEdit" ref="datatable" />
+      <ProjectDataTable
+        :loadingActions="loadingActions"
+        @edit="handleEdit"
+        @archive="handleArchive"
+        @delete="handleDelete"
+        ref="datatable"
+      />
     </div>
   </div>
   <AppModal @close="setCreate" ref="formModal">

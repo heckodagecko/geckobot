@@ -9,6 +9,7 @@ export const useProjectsStore = defineStore('projects', () => {
 
   const items = ref<Project[]>([])
   const totalItems = ref(1)
+  const withTrashed = ref(false)
 
   const pageSize = ref(10)
   const currentPage = ref(1)
@@ -23,6 +24,7 @@ export const useProjectsStore = defineStore('projects', () => {
     } = await Datasource.projects.getAll({
       pageNo: currentPage.value,
       pageSize: pageSize.value,
+      includeTrashed: withTrashed.value,
     })
 
     items.value = data
@@ -50,6 +52,11 @@ export const useProjectsStore = defineStore('projects', () => {
     loadItems()
   }
 
+  function setIncludeTrashed(value: boolean) {
+    withTrashed.value = value
+    loadItems()
+  }
+
   function setPageSize(size: number) {
     pageSize.value = size
     currentPage.value = 1
@@ -59,6 +66,7 @@ export const useProjectsStore = defineStore('projects', () => {
   return {
     loading: readonly(loading),
     items: readonly(items),
+    withTrashed: readonly(withTrashed),
     totalItems: readonly(totalItems),
     pageSize: readonly(pageSize),
     currentPage: readonly(currentPage),
@@ -67,6 +75,7 @@ export const useProjectsStore = defineStore('projects', () => {
     loadPage,
     loadNextPage,
     loadPreviousPage,
+    setIncludeTrashed,
     setPageSize,
   }
 })

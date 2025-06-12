@@ -99,7 +99,7 @@ defineExpose({ selectedItems: readonly(selectedItems) })
       <tr v-if="loading">
         <td class="text-center" colspan="100%">
           <slot name="loading">
-            <span class="loading loading-ring loading-md"></span>
+            <span class="loading loading-ring loading-lg"></span>
           </slot>
         </td>
       </tr>
