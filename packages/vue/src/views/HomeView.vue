@@ -67,6 +67,23 @@ async function handleArchive({ id }: Project) {
   loadingActions.value = false
 }
 
+async function handleRestore({ id }: Project) {
+  loadingActions.value = true
+
+  try {
+    const { message } = await Datasource.projects.restore(id)
+    projectsStore.loadItems()
+    notifyStore.notify({ type: NotificationType.Success, message })
+  } catch (error: any) {
+    notifyStore.notify({
+      type: NotificationType.Error,
+      message: error?.message || 'Something went wrong',
+    })
+  }
+
+  loadingActions.value = false
+}
+
 async function handleDelete({ id }: Project) {
   loadingActions.value = true
 
@@ -114,8 +131,13 @@ async function handleSubmit() {
   submitLoading.value = false
 }
 
+const showArchived = ref(false)
+
+function handleChangeShowArchived() {
+  projectsStore.setIncludeTrashed(showArchived.value)
+}
+
 onMounted(() => {
-  // projectsStore.setIncludeTrashed(true)
   projectsStore.loadItems()
 })
 </script>
@@ -124,21 +146,33 @@ onMounted(() => {
   <div class="container mx-auto px-4">
     <div class="flex flex-col sm:flex-row sm:space-x-2 space-y-2 sm:space-y-0">
       <button class="btn btn-primary" @click="() => formModal?.show()">
-        <FontAwesomeIcon :icon="faPlus" class="h-5 w-5" />
+        <FontAwesomeIcon :icon="faPlus" class="size-[1em]" />
         Create project
       </button>
     </div>
-    <label class="input w-full mt-4">
-      <FontAwesomeIcon :icon="faSearch" class="h-[1em] opacity-50" />
-      <input type="search" class="grow" placeholder="Search" />
-      <kbd class="kbd kbd-sm">⌘</kbd>
-      <kbd class="kbd kbd-sm">K</kbd>
-    </label>
+    <div class="mt-4 flex flex-col sm:flex-row sm:justify-between items-center gap-4">
+      <label class="input w-full">
+        <FontAwesomeIcon :icon="faSearch" class="h-[1em] opacity-50" />
+        <input type="search" class="grow" placeholder="Search" />
+        <kbd class="kbd kbd-sm">⌘</kbd>
+        <kbd class="kbd kbd-sm">K</kbd>
+      </label>
+      <label class="label">
+        Show archived
+        <input
+          v-model="showArchived"
+          type="checkbox"
+          class="toggle"
+          @change="handleChangeShowArchived"
+        />
+      </label>
+    </div>
     <div class="mt-4">
       <ProjectDataTable
         :loadingActions="loadingActions"
         @edit="handleEdit"
         @archive="handleArchive"
+        @restore="handleRestore"
         @delete="handleDelete"
         ref="datatable"
       />

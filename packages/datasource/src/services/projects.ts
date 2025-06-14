@@ -7,6 +7,7 @@ import type {
   UpdateResult,
   DeleteMode,
   DeleteResult,
+  RestoreResult,
 } from "./types";
 
 export interface ProjectsService {
@@ -18,4 +19,5 @@ export interface ProjectsService {
     data: UpdateProject
   ): Promise<UpdateResult<Project>>;
   delete(id: Project["id"], mode: DeleteMode): Promise<DeleteResult>;
+  restore(id: Project["id"]): Promise<RestoreResult>;
 }

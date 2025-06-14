@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { UseTimeAgo } from '@vueuse/components'
-import { faBoxArchive, faEllipsis, faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {
+  faBoxArchive,
+  faEllipsis,
+  faPencil,
+  faRotate,
+  faTrash,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import type { Project } from '@geckobot/types'
 
@@ -16,6 +22,7 @@ interface ProjectDataTableProps {
 interface ProjectDataTableEvents {
   (event: 'edit', data: Project): void
   (event: 'archive', data: Project): void
+  (event: 'restore', data: Project): void
   (event: 'delete', data: Project): void
 }
 
@@ -94,22 +101,30 @@ const dtFormat = new Intl.DateTimeFormat('en-US', {
             <template v-if="!loadingActions">
               <li>
                 <a @click="$emit('edit', item)">
-                  <FontAwesomeIcon :icon="faPencil" class="h-5 w-5" />
+                  <FontAwesomeIcon :icon="faPencil" class="size-[1em]" />
                   Edit
                 </a>
               </li>
               <li v-if="item.deletedAt == null">
                 <a class="text-error" @click="$emit('archive', item)">
-                  <FontAwesomeIcon :icon="faBoxArchive" class="h-5 w-5" />
+                  <FontAwesomeIcon :icon="faBoxArchive" class="size-[1em]" />
                   Archive
                 </a>
               </li>
-              <li v-else>
-                <a class="text-error" @click="$emit('delete', item)">
-                  <FontAwesomeIcon :icon="faTrash" class="h-5 w-5" />
-                  Delete
-                </a>
-              </li>
+              <template v-else>
+                <li>
+                  <a @click="$emit('restore', item)">
+                    <FontAwesomeIcon :icon="faRotate" class="size-[1em]" />
+                    Restore
+                  </a>
+                </li>
+                <li>
+                  <a class="text-error" @click="$emit('delete', item)">
+                    <FontAwesomeIcon :icon="faTrash" class="size-[1em]" />
+                    Delete
+                  </a>
+                </li>
+              </template>
             </template>
             <li v-else class="flex items-center">
               <span class="loading loading-ring loading-lg"></span>

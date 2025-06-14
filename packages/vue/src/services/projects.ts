@@ -5,6 +5,7 @@ import type {
   GetAllOptions,
   GetAllResult,
   ProjectsService,
+  RestoreResult,
   UpdateResult,
 } from '@geckobot/datasource'
 import { faker } from '@faker-js/faker'
@@ -29,7 +30,7 @@ for (let i = 0; i < 150; i++) {
 }
 
 export default class MockProjectsService implements ProjectsService {
-  getAll(options: GetAllOptions<Project> = {}): Promise<GetAllResult<Project>> {
+  async getAll(options: GetAllOptions<Project> = {}): Promise<GetAllResult<Project>> {
     const pageNo = options.pageNo || 1
     const pageSize = options.pageSize || 10
     const includeTrashed = Boolean(options.includeTrashed)
@@ -44,19 +45,27 @@ export default class MockProjectsService implements ProjectsService {
     const totalCount = filteredItems.length
     const totalPages = Math.ceil(filteredItems.length / pageSize)
 
-    return new Promise((resolve) => setTimeout(resolve, 500)).then(() => ({
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
+    return {
       data,
       _paging: { totalCount, totalPages },
-    }))
+    }
   }
 
-  get(id: Project['id']): Promise<Project> {
+  async get(id: Project['id']): Promise<Project> {
     const project = items.find((p) => p.id === id)
-    if (project) return Promise.resolve(project)
-    return Promise.reject(new Error('Project not found'))
+
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
+    if (project == null) throw new Error('Project not found')
+
+    return project
   }
 
-  create({ name, description, startedAt }: CreateProject): Promise<CreateResult<Project>> {
+  async create({ name, description, startedAt }: CreateProject): Promise<CreateResult<Project>> {
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
     const project: Project = {
       id: items.length + 1,
       name,
@@ -67,17 +76,20 @@ export default class MockProjectsService implements ProjectsService {
       deletedAt: null,
     }
     items.unshift(project)
-    return new Promise((resolve) => setTimeout(resolve, 500)).then(() => ({
+
+    return {
       message: 'Project has been successfully created',
       data: project,
-    }))
+    }
   }
 
-  update(id: Project['id'], data: UpdateProject): Promise<UpdateResult<Project>> {
+  async update(id: Project['id'], data: UpdateProject): Promise<UpdateResult<Project>> {
     const index = items.findIndex(({ id: _id }) => _id === id)
     if (index === -1) {
-      return Promise.reject(new Error('Project not found'))
+      throw new Error('Project not found')
     }
+
+    await new Promise((resolve) => setTimeout(resolve, 500))
 
     const project: Project = {
       ...items[index],
@@ -86,17 +98,19 @@ export default class MockProjectsService implements ProjectsService {
     }
     items[index] = project
 
-    return new Promise((resolve) => setTimeout(resolve, 500)).then(() => ({
+    return {
       message: 'Project has been updated successfully',
       data: project,
-    }))
+    }
   }
 
-  delete(id: Project['id'], mode: DeleteMode = 'SOFT'): Promise<DeleteResult> {
+  async delete(id: Project['id'], mode: DeleteMode = 'SOFT'): Promise<DeleteResult> {
     const index = items.findIndex(({ id: _id }) => _id === id)
     if (index === -1) {
-      return Promise.reject(new Error('Project not found'))
+      throw new Error('Project not found')
     }
+
+    await new Promise((resolve) => setTimeout(resolve, 500))
 
     if (mode === 'HARD') {
       items.splice(index, 1)
@@ -104,9 +118,22 @@ export default class MockProjectsService implements ProjectsService {
       items[index].deletedAt = new Date().toISOString()
     }
 
-    return new Promise((resolve) => setTimeout(resolve, 500)).then(() => ({
+    return {
       message:
         mode === 'HARD' ? 'Project has been permanently deleted' : 'Project has been archived',
-    }))
+    }
+  }
+
+  async restore(id: Project['id']): Promise<RestoreResult> {
+    const index = items.findIndex(({ id: _id }) => _id === id)
+    if (index === -1) {
+      return Promise.reject(new Error('Project not found'))
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 500))
+
+    items[index].deletedAt = null
+
+    return { message: 'Project has been restored' }
   }
 }

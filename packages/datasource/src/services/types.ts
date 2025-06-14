@@ -29,3 +29,7 @@ export interface UpdateResult<T extends object> extends CreateResult<T> {}
 export interface DeleteResult {
   message: string;
 }
+
+export interface RestoreResult {
+  message: string;
+}
