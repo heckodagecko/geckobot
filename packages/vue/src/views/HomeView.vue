@@ -7,7 +7,8 @@ const formDefault: () => CreateProject = () => ({
 
 <script setup lang="ts">
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSearch, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { useEventListener } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
 import type { CreateResult, UpdateResult } from '@geckobot/datasource'
 import type { CreateProject, Project, UpdateProject } from '@geckobot/types'
@@ -23,7 +24,25 @@ import { DataFormMode, NotificationType } from '@/types'
 const projectsStore = useProjectsStore()
 const notifyStore = useNotifyStore()
 
-const datatable = ref<InstanceType<typeof ProjectDataTable> | null>(null)
+const searchTerm = ref('')
+const searchInput = ref<HTMLInputElement | null>(null)
+
+useEventListener(document, 'keydown', (e) => {
+  if (e.ctrlKey && e.key === 'k') {
+    e.preventDefault()
+    searchInput.value?.focus()
+  }
+})
+
+function handleSearchEnter(e: KeyboardEvent) {
+  if (searchTerm.value.trim().length === 0) return
+  projectsStore.setSearchTerm(searchTerm.value.trim())
+}
+
+function handleSearchClear() {
+  projectsStore.setSearchTerm(null)
+  searchTerm.value = ''
+}
 
 const form = ref<InstanceType<typeof ProjectForm> | null>(null)
 const formModal = ref<InstanceType<typeof AppModal> | null>(null)
@@ -152,9 +171,23 @@ onMounted(() => {
     </div>
     <div class="mt-4 flex flex-col sm:flex-row sm:justify-between items-center gap-4">
       <label class="input w-full">
-        <FontAwesomeIcon :icon="faSearch" class="h-[1em] opacity-50" />
-        <input type="search" class="grow" placeholder="Search" />
-        <kbd class="kbd kbd-sm">⌘</kbd>
+        <FontAwesomeIcon :icon="faSearch" class="size-[1em] opacity-50" />
+        <input
+          v-model="searchTerm"
+          type="search"
+          class="grow"
+          placeholder="Search"
+          @keydown.enter.prevent="handleSearchEnter"
+          ref="searchInput"
+        />
+        <button
+          v-if="projectsStore.searchTerm != null"
+          class="btn btn-circle btn-outline btn-xs"
+          @click="handleSearchClear"
+        >
+          <FontAwesomeIcon :icon="faXmark" class="size-[1em]" />
+        </button>
+        <kbd class="kbd kbd-sm">⌃</kbd>
         <kbd class="kbd kbd-sm">K</kbd>
       </label>
       <label class="label">
@@ -174,7 +207,6 @@ onMounted(() => {
         @archive="handleArchive"
         @restore="handleRestore"
         @delete="handleDelete"
-        ref="datatable"
       />
     </div>
   </div>

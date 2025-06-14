@@ -9,11 +9,12 @@ export const useProjectsStore = defineStore('projects', () => {
 
   const items = ref<Project[]>([])
   const totalItems = ref(1)
-  const withTrashed = ref(false)
 
+  const withTrashed = ref(false)
   const pageSize = ref(10)
   const currentPage = ref(1)
   const totalPages = ref(1)
+  const searchTerm = ref<string | null>(null)
 
   async function loadItems() {
     loading.value = true
@@ -21,17 +22,25 @@ export const useProjectsStore = defineStore('projects', () => {
     const {
       data,
       _paging: { totalCount, totalPages: _totalPages },
-    } = await Datasource.projects.getAll({
-      pageNo: currentPage.value,
-      pageSize: pageSize.value,
-      includeTrashed: withTrashed.value,
-    })
+    } = await Datasource.projects.getAll(
+      {
+        pageNo: currentPage.value,
+        pageSize: pageSize.value,
+        includeTrashed: withTrashed.value,
+      },
+      searchTerm.value,
+    )
 
     items.value = data
     totalPages.value = _totalPages
     totalItems.value = totalCount
 
     loading.value = false
+  }
+
+  function setSearchTerm(value: string | null) {
+    searchTerm.value = value
+    loadItems()
   }
 
   function loadPage(pageNo: number) {
@@ -71,6 +80,8 @@ export const useProjectsStore = defineStore('projects', () => {
     pageSize: readonly(pageSize),
     currentPage: readonly(currentPage),
     totalPages: readonly(totalPages),
+    searchTerm: readonly(searchTerm),
+    setSearchTerm,
     loadItems,
     loadPage,
     loadNextPage,

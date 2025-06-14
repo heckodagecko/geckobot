@@ -30,14 +30,23 @@ for (let i = 0; i < 150; i++) {
 }
 
 export default class MockProjectsService implements ProjectsService {
-  async getAll(options: GetAllOptions<Project> = {}): Promise<GetAllResult<Project>> {
+  async getAll(
+    options: GetAllOptions<Project> = {},
+    searchTerm?: string,
+  ): Promise<GetAllResult<Project>> {
     const pageNo = options.pageNo || 1
     const pageSize = options.pageSize || 10
     const includeTrashed = Boolean(options.includeTrashed)
 
-    const filteredItems = items.filter(({ deletedAt }) =>
+    let filteredItems = items.filter(({ deletedAt }) =>
       !includeTrashed ? deletedAt == null : true,
     )
+
+    if (searchTerm != null) {
+      filteredItems = filteredItems.filter(({ name }) =>
+        name.toLowerCase().includes(searchTerm.toLowerCase()),
+      )
+    }
 
     const startIndex = (pageNo - 1) * pageSize
 
