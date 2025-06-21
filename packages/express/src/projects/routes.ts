@@ -2,20 +2,23 @@ import { Router } from "express";
 
 import { validate } from "../middlewares";
 import {
-  paginationValidation,
-  includeTrashedValidation,
   destroyValidation,
+  includeTrashedValidation,
+  paginationValidation,
 } from "../validations";
 import {
+  createProject,
+  deleteProject,
   getAllProjects,
   getProjectById,
-  createProject,
+  restoreProject,
   updateProject,
-  deleteProject,
+  updateTags,
 } from "./controllers";
 import {
-  projectIdValidation,
   projectCreateValidation,
+  projectIdValidation,
+  projectTagsUpdateValidation,
   projectUpdateValidation,
 } from "./validations";
 
@@ -52,6 +55,18 @@ router.delete(
   destroyValidation,
   validate,
   deleteProject
+);
+
+// Restore a project
+router.patch("/:id", projectIdValidation, validate, restoreProject);
+
+// Assign and remove tags
+router.put(
+  "/:id/tags",
+  projectIdValidation,
+  projectTagsUpdateValidation,
+  validate,
+  updateTags
 );
 
 export default router;

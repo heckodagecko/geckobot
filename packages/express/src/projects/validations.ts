@@ -29,3 +29,46 @@ export const projectUpdateValidation = [
     .withMessage("Description must be a string"),
   body("startedAt").isISO8601().optional().withMessage("Date must be a date"),
 ];
+
+export const projectTagsUpdateValidation = [
+  check("body").notEmpty().withMessage("Request body cannot be empty"),
+  body("assign")
+    .optional()
+    .isArray()
+    .withMessage("The 'assign' field must be an array")
+    .custom((value) => {
+      if (value && value.length === 0) {
+        throw new Error("The 'assign' array cannot be empty");
+      }
+      return true;
+    })
+    .bail()
+    .custom((value) => {
+      if (value && !value.every((id) => Number.isInteger(id) && id > 0)) {
+        throw new Error(
+          "All items in 'assign' must be valid positive integers"
+        );
+      }
+      return true;
+    }),
+  body("remove")
+    .optional()
+    .isArray()
+    .withMessage("The 'remove' field must be an array")
+    .custom((value) => {
+      if (value && value.length === 0) {
+        throw new Error("The 'remove' array cannot be empty");
+      }
+      return true;
+    })
+    .bail()
+    .custom((value) => {
+      if (value && !value.every((id) => Number.isInteger(id) && id > 0)) {
+        throw new Error(
+          "All items in 'remove' must be valid positive integers"
+        );
+      }
+      return true;
+    }),
+  ,
+];

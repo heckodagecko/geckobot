@@ -119,3 +119,38 @@ export const deleteProject = async (req: Request, res: Response) => {
       .json({ message: "An internal error has ocurred", error: error.message });
   }
 };
+
+export const restoreProject = async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    let data = await prisma.project.findUnique({ where: { id } });
+    if (data == null) {
+      res.status(404).json({ message: "Project not found" });
+      return;
+    }
+
+    if (data.deletedAt == null) {
+      res.status(400).json({ message: "This project is already active" });
+      return;
+    }
+
+    data = await prisma.project.update({
+      data: { deletedAt: null },
+      where: { id },
+    });
+
+    res.json({
+      message: "Project has been successfully restored",
+      data,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "An internal error has ocurred", error: error.message });
+  }
+};
+
+export const updateTags = async (req: Request, res: Response) => {
+  // TODO: Implement logic
+};
