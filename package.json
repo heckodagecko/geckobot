@@ -1,5 +1,5 @@
 {
-  "name": "@geckobot/root",
+  "name": "geckobot",
   "version": "1.0.0",
   "private": true,
   "workspaces": ["packages/*"],
