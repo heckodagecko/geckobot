@@ -20,9 +20,20 @@ export interface Project {
   deletedAt: string | null;
 }
 
+export interface CreateProjectTag {
+  name: string;
+  color?: string | null;
+}
+
+export interface UpdateProjectTag {
+  name?: string;
+  color?: string | null;
+}
+
 export interface ProjectTag {
   readonly id: number;
   name: string;
+  color?: string | null;
 }
 
 export type ProjectFileCategory = "exports" | "sources";
