@@ -20,3 +20,5 @@ export interface Notification {
   type: NotificationType
   message: string
 }
+
+export type HexColor = `#${string}`
