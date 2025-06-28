@@ -13,12 +13,12 @@ import {
   getProjectById,
   restoreProject,
   updateProject,
-  updateTags,
+  updateProjectTags,
 } from "./controllers";
 import {
   projectCreateValidation,
   projectIdValidation,
-  projectTagsUpdateValidation,
+  projectUpdateTagsValidation,
   projectUpdateValidation,
 } from "./validations";
 
@@ -64,9 +64,9 @@ router.patch("/:id", projectIdValidation, validate, restoreProject);
 router.put(
   "/:id/tags",
   projectIdValidation,
-  projectTagsUpdateValidation,
+  projectUpdateTagsValidation,
   validate,
-  updateTags
+  updateProjectTags
 );
 
 export default router;

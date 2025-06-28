@@ -151,6 +151,53 @@ export const restoreProject = async (req: Request, res: Response) => {
   }
 };
 
-export const updateTags = async (req: Request, res: Response) => {
-  // TODO: Implement logic
+export const updateProjectTags = async (req: Request, res: Response) => {
+  const id = parseInt(req.params.id);
+  const { assign = [], remove = [] }: { assign?: number[]; remove?: number[] } =
+    req.body;
+
+  try {
+    const project = await prisma.project.findUnique({
+      where: { id },
+      include: { tags: true },
+    });
+    if (project == null) {
+      res.status(404).json({ message: "Project not found" });
+      return;
+    }
+
+    const existingTags = await prisma.projectTag.findMany({
+      where: { id: { in: [...assign, ...remove] } },
+    });
+    const assignedTags = project.tags.map(({ id }) => id);
+
+    const revisedAssign = existingTags
+      .filter(({ id }) => assign.includes(id) && !assignedTags.includes(id))
+      .map(({ id }) => ({ id }));
+    const revisedRemove = existingTags
+      .filter(({ id }) => remove.includes(id) && assignedTags.includes(id))
+      .map(({ id }) => ({ id }));
+
+    if (revisedAssign.length === 0 && revisedRemove.length === 0) {
+      res.status(400).json({ message: "No valid tags to update" });
+      return;
+    }
+
+    await prisma.project.update({
+      where: { id },
+      data: { tags: { connect: revisedAssign, disconnect: revisedRemove } },
+    });
+
+    res.json({
+      message: "Project tags have been successfully updated",
+      data: {
+        assigned: revisedAssign.map(({ id }) => id),
+        removed: revisedRemove.map(({ id }) => id),
+      },
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "An internal error has ocurred", error: error.message });
+  }
 };
