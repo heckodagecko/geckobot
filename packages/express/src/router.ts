@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { projectRouter } from "./projects";
-import { projectTagRouter } from "./projectTags";
+import { projectTagRouter } from "./project-tags";
 
 const router = Router();
 
