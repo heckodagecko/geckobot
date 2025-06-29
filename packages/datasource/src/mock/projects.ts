@@ -1,5 +1,7 @@
 import { faker } from "@faker-js/faker";
 
+import { MOCK_API_DELAY, MOCK_PROJECTS_COUNT } from "./constants";
+import { projectTags } from "./project-tags";
 import type {
   CreateProject,
   CreateResult,
@@ -7,29 +9,38 @@ import type {
   DeleteResult,
   GetAllOptions,
   GetAllResult,
-  Project,
+  Project as BaseProject,
   ProjectsService,
+  ProjectTag,
   RestoreResult,
   UpdateProject,
   UpdateResult,
+  UpdateTagsResult,
 } from "../types";
 
-const items: Project[] = [];
+interface Project extends BaseProject {
+  tags?: ProjectTag["id"][];
+}
+
+export const projects: Project[] = [];
 
 function createProject(): Project {
   return {
-    id: items.length + 1,
+    id: projects.length + 1,
     name: faker.lorem.words(3),
     description: faker.lorem.sentence(),
     startedAt: Math.random() > 0.75 ? null : faker.date.past().toISOString(),
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     deletedAt: null,
+    tags: Array(Math.floor(Math.random() * MOCK_PROJECTS_COUNT)).map(
+      () => projectTags[Math.floor(Math.random() * projectTags.length)].id
+    ),
   };
 }
 
-for (let i = 0; i < 150; i++) {
-  items.push(createProject());
+for (let i = 0; i < MOCK_PROJECTS_COUNT; i++) {
+  projects.push(createProject());
 }
 
 export default class MockProjectsService implements ProjectsService {
@@ -37,11 +48,15 @@ export default class MockProjectsService implements ProjectsService {
     options: GetAllOptions<Project> = {},
     searchTerm?: string
   ): Promise<GetAllResult<Project>> {
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    // TODO: Filter by tags
+
     const pageNo = options.pageNo || 1;
     const pageSize = options.pageSize || 10;
     const includeTrashed = Boolean(options.includeTrashed);
 
-    let filteredItems = items.filter(({ deletedAt }) =>
+    let filteredItems = projects.filter(({ deletedAt }) =>
       !includeTrashed ? deletedAt == null : true
     );
 
@@ -57,8 +72,6 @@ export default class MockProjectsService implements ProjectsService {
     const totalCount = filteredItems.length;
     const totalPages = Math.ceil(filteredItems.length / pageSize);
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
     return {
       data,
       _paging: { totalCount, totalPages },
@@ -66,11 +79,13 @@ export default class MockProjectsService implements ProjectsService {
   }
 
   async get(id: Project["id"]): Promise<Project> {
-    const project = items.find((p) => p.id === id);
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    const project = projects.find(({ id: _id }) => _id === id);
 
-    if (project == null) throw new Error("Project not found");
+    if (project == null) {
+      throw new Error("Project not found");
+    }
 
     return project;
   }
@@ -80,10 +95,10 @@ export default class MockProjectsService implements ProjectsService {
     description,
     startedAt,
   }: CreateProject): Promise<CreateResult<Project>> {
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
 
     const project: Project = {
-      id: items.length + 1,
+      id: projects.length + 1,
       name,
       description: description ?? null,
       startedAt: startedAt ?? null,
@@ -91,7 +106,7 @@ export default class MockProjectsService implements ProjectsService {
       updatedAt: new Date().toISOString(),
       deletedAt: null,
     };
-    items.unshift(project);
+    projects.unshift(project);
 
     return {
       message: "Project has been successfully created",
@@ -103,19 +118,19 @@ export default class MockProjectsService implements ProjectsService {
     id: Project["id"],
     data: UpdateProject
   ): Promise<UpdateResult<Project>> {
-    const index = items.findIndex(({ id: _id }) => _id === id);
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const index = projects.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {
       throw new Error("Project not found");
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
     const project: Project = {
-      ...items[index],
+      ...projects[index],
       ...data,
       updatedAt: new Date().toISOString(),
     };
-    items[index] = project;
+    projects[index] = project;
 
     return {
       message: "Project has been updated successfully",
@@ -127,17 +142,17 @@ export default class MockProjectsService implements ProjectsService {
     id: Project["id"],
     mode: DeleteMode = "SOFT"
   ): Promise<DeleteResult> {
-    const index = items.findIndex(({ id: _id }) => _id === id);
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const index = projects.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {
       throw new Error("Project not found");
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
     if (mode === "HARD") {
-      items.splice(index, 1);
+      projects.splice(index, 1);
     } else {
-      items[index].deletedAt = new Date().toISOString();
+      projects[index].deletedAt = new Date().toISOString();
     }
 
     return {
@@ -149,23 +164,52 @@ export default class MockProjectsService implements ProjectsService {
   }
 
   async restore(id: Project["id"]): Promise<RestoreResult> {
-    const index = items.findIndex(({ id: _id }) => _id === id);
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const index = projects.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {
       return Promise.reject(new Error("Project not found"));
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    items[index].deletedAt = null;
+    projects[index].deletedAt = null;
 
     return { message: "Project has been restored" };
   }
 
   async updateTags(
     id: Project["id"],
-    assign: Project["id"],
-    remove: Project["id"]
-  ): Promise<void> {
-    throw new Error("Method not implemented.");
+    assign: ProjectTag["id"][] = [],
+    remove: ProjectTag["id"][] = []
+  ): Promise<UpdateTagsResult> {
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const index = projects.findIndex(({ id: _id }) => _id === id);
+    if (index === -1) {
+      throw new Error("Project not found");
+    }
+
+    const project = projects[index];
+
+    const assignedTags: ProjectTag["id"][] = [
+      ...(project.tags ?? []),
+      ...assign.filter((tagId) => !project.tags?.includes(tagId)),
+    ];
+    const removedTags: ProjectTag["id"][] = [
+      ...(project.tags ?? []).filter((tagId) => !assign.includes(tagId)),
+      ...remove.filter((tagId) => project.tags?.includes(tagId)),
+    ];
+
+    project.tags = assignedTags.filter((tagId) => !removedTags.includes(tagId));
+    project.updatedAt = new Date().toISOString();
+
+    projects[index] = project;
+
+    return {
+      message: "Project tags have been updated successfully",
+      data: {
+        assigned: assignedTags,
+        removed: removedTags,
+      },
+    };
   }
 }

@@ -1,35 +1,111 @@
-import {
+import { faker } from "@faker-js/faker";
+
+import { MOCK_API_DELAY, MOCK_PROJECT_TAGS_COUNT } from "./constants";
+import type {
   CreateProjectTag,
   CreateResult,
   DeleteResult,
   GetAllResult,
+  HexColor,
   ProjectTag,
   ProjectTagsService,
   UpdateProjectTag,
   UpdateResult,
 } from "../types";
 
+export const projectTags: ProjectTag[] = [];
+
+function createProjectTag(): ProjectTag {
+  return {
+    id: projectTags.length + 1,
+    name: `Tag ${projectTags.length + 1}`,
+    color: faker.color.rgb() as HexColor,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+for (let i = 0; i < MOCK_PROJECT_TAGS_COUNT; i++) {
+  projectTags.push(createProjectTag());
+}
+
 export default class MockProjectTagsService implements ProjectTagsService {
   async getAll(): Promise<GetAllResult<ProjectTag>> {
-    throw new Error("Method not implemented.");
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    return {
+      data: projectTags,
+      _paging: { totalCount: projectTags.length, totalPages: 1 },
+    };
   }
 
   async get(id: ProjectTag["id"]): Promise<ProjectTag> {
-    throw new Error("Method not implemented.");
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const tag = projectTags.find(({ id: _id }) => _id === id);
+
+    if (tag == null) {
+      throw new Error(`Project tag not found`);
+    }
+
+    return tag;
   }
 
-  async create(data: CreateProjectTag): Promise<CreateResult<ProjectTag>> {
-    throw new Error("Method not implemented.");
+  async create({
+    name,
+    color,
+  }: CreateProjectTag): Promise<CreateResult<ProjectTag>> {
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const tag: ProjectTag = {
+      id: projectTags.length + 1,
+      name,
+      color: color ?? null,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    projectTags.push(tag);
+
+    return {
+      message: "Project tag has been successfully created",
+      data: tag,
+    };
   }
 
   async update(
     id: ProjectTag["id"],
     data: UpdateProjectTag
   ): Promise<UpdateResult<ProjectTag>> {
-    throw new Error("Method not implemented.");
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const index = projectTags.findIndex(({ id: _id }) => _id === id);
+    if (index === -1) {
+      throw new Error("Project tag not found");
+    }
+
+    const tag: ProjectTag = {
+      ...projectTags[index],
+      ...data,
+      updatedAt: new Date().toISOString(),
+    };
+    projectTags[index] = tag;
+
+    return {
+      message: "Project tag has been successfully updated",
+      data: tag,
+    };
   }
 
   async delete(id: ProjectTag["id"]): Promise<DeleteResult> {
-    throw new Error("Method not implemented.");
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const index = projectTags.findIndex(({ id: _id }) => _id === id);
+    if (index === -1) {
+      throw new Error("Project tag not found");
+    }
+
+    projectTags.splice(index, 1);
+
+    return { message: "Project tag has been successfully deleted" };
   }
 }

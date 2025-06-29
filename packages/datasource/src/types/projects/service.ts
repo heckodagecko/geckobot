@@ -9,6 +9,14 @@ import type {
 } from "../service";
 import type { CreateProject, UpdateProject, Project } from "./data";
 
+export interface UpdateTagsResult {
+  message: string;
+  data: {
+    assigned: Project["id"][];
+    removed: Project["id"][];
+  };
+}
+
 export interface ProjectsService {
   getAll(
     options: GetAllOptions<Project>,
@@ -26,5 +34,5 @@ export interface ProjectsService {
     id: Project["id"],
     assign: Project["id"][],
     remove: Project["id"][]
-  ): Promise<void>;
+  ): Promise<UpdateTagsResult>;
 }
