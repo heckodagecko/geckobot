@@ -24,7 +24,10 @@ export interface CreateResult<T extends object> {
   data: T;
 }
 
-export interface UpdateResult<T extends object> extends CreateResult<T> {}
+export interface UpdateResult<T extends object> {
+  message: string;
+  data: T;
+}
 
 export interface DeleteResult {
   message: string;

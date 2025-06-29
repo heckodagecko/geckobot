@@ -2,7 +2,7 @@ import MockProjectsService from "./projects";
 import MockProjectTagsService from "./project-tags";
 import type { Datasource, ProjectsService, ProjectTagsService } from "../types";
 
-class MockDatasource implements Datasource {
+export class MockDatasource implements Datasource {
   readonly projects: ProjectsService;
   readonly projectTags: ProjectTagsService;
 
@@ -11,5 +11,3 @@ class MockDatasource implements Datasource {
     this.projectTags = new MockProjectTagsService();
   }
 }
-
-export default new MockDatasource();
