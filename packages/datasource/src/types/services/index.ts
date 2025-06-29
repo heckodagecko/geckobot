@@ -1,3 +1,3 @@
 export * from "./projects";
-export * from "./projectTags";
+export * from "./project-tags";
 export * from "./types";

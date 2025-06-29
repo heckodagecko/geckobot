@@ -1,5 +1,4 @@
-import type { CreateProject, UpdateProject, Project } from "@geckobot/types";
-
+import type { CreateProject, UpdateProject, Project } from "../data";
 import type {
   GetAllOptions,
   GetAllResult,
@@ -23,4 +22,9 @@ export interface ProjectsService {
   ): Promise<UpdateResult<Project>>;
   delete(id: Project["id"], mode: DeleteMode): Promise<DeleteResult>;
   restore(id: Project["id"]): Promise<RestoreResult>;
+  updateTags(
+    id: Project["id"],
+    assign: Project["id"][],
+    remove: Project["id"][]
+  ): Promise<void>;
 }

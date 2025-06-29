@@ -1,9 +1,4 @@
-import type {
-  CreateProjectTag,
-  ProjectTag,
-  UpdateProjectTag,
-} from "@geckobot/types";
-
+import type { CreateProjectTag, ProjectTag, UpdateProjectTag } from "../data";
 import type {
   CreateResult,
   DeleteResult,
