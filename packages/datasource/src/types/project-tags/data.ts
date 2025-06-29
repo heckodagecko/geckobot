@@ -1,15 +1,19 @@
+export type HexColor = `#${string}`;
+
 export interface CreateProjectTag {
   name: string;
-  color?: string | null;
+  color?: HexColor | null;
 }
 
 export interface UpdateProjectTag {
   name?: string;
-  color?: string | null;
+  color?: HexColor | null;
 }
 
 export interface ProjectTag {
   readonly id: number;
   name: string;
-  color?: string | null;
+  color?: HexColor | null;
+  createdAt: string;
+  updatedAt: string;
 }
