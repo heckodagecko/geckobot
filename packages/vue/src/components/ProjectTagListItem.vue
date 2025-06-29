@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import type { HexColor } from '@geckobot/datasource'
+
 import ProjectTag from '@/components/ProjectTag.vue'
-import type { HexColor } from '@/types'
 
 defineProps<{
   data: {

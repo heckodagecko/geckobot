@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HexColor } from '@/types'
+import type { HexColor } from '@geckobot/datasource'
 
 interface ProjectTagProps {
   color: HexColor

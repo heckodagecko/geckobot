@@ -8,7 +8,7 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import type { Project } from '@geckobot/types'
+import type { Project } from '@geckobot/datasource'
 
 import DataTable from '@/components/DataTable/DataTable.vue'
 import DataTablePageSize from '@/components/DataTable/DataTablePageSize.vue'

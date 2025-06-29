@@ -10,13 +10,18 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPlus, faSearch, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useEventListener } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
-import type { CreateResult, UpdateResult } from '@geckobot/datasource'
-import type { CreateProject, Project, UpdateProject } from '@geckobot/types'
+import type {
+  CreateProject,
+  CreateResult,
+  Project,
+  UpdateProject,
+  UpdateResult,
+} from '@geckobot/datasource'
 
 import AppModal from '@/components/AppModal.vue'
 import ProjectDataTable from '@/components/ProjectDataTable.vue'
 import ProjectForm from '@/components/ProjectForm.vue'
-import Datasource from '@/services'
+import Datasource from '@/datasource'
 import { useNotifyStore } from '@/stores/notify'
 import { useProjectsStore } from '@/stores/projects'
 import { DataFormMode, NotificationType } from '@/types'

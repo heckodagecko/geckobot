@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, readonly } from 'vue'
-import type { Project } from '@geckobot/types'
+import type { Project } from '@geckobot/datasource'
 
-import Datasource from '@/services'
+import Datasource from '@/datasource'
 
 export const useProjectsStore = defineStore('projects', () => {
   const loading = ref(false)

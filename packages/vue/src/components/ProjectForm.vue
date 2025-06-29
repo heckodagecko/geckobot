@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import type { CreateProject, UpdateProject } from '@geckobot/types'
+import type { CreateProject, UpdateProject } from '@geckobot/datasource'
 
 import { DataFormMode } from '@/types'
 

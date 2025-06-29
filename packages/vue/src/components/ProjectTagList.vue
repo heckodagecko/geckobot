@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { faker } from '@faker-js/faker'
+import type { HexColor } from '@geckobot/datasource'
 
 import ProjectTagListItem from '@/components/ProjectTagListItem.vue'
-import type { HexColor } from '@/types'
 
 function randomColor() {
   return faker.color.rgb()
