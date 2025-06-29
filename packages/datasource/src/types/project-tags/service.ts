@@ -1,10 +1,10 @@
-import type { CreateProjectTag, ProjectTag, UpdateProjectTag } from "../data";
 import type {
   CreateResult,
   DeleteResult,
   GetAllResult,
   UpdateResult,
-} from "./types";
+} from "../service";
+import type { CreateProjectTag, ProjectTag, UpdateProjectTag } from "./data";
 
 export interface ProjectTagsService {
   getAll(): Promise<GetAllResult<ProjectTag>>;

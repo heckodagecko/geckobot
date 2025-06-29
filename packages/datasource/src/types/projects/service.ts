@@ -1,4 +1,3 @@
-import type { CreateProject, UpdateProject, Project } from "../data";
 import type {
   GetAllOptions,
   GetAllResult,
@@ -7,7 +6,8 @@ import type {
   DeleteMode,
   DeleteResult,
   RestoreResult,
-} from "./types";
+} from "../service";
+import type { CreateProject, UpdateProject, Project } from "./data";
 
 export interface ProjectsService {
   getAll(
