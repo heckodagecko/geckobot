@@ -1,16 +1,20 @@
 import type {
-  ProjectsService,
+  CreateProject,
   CreateResult,
+  DeleteMode,
   DeleteResult,
   GetAllOptions,
   GetAllResult,
+  Project,
+  ProjectsService,
+  RestoreResult,
+  UpdateProject,
   UpdateResult,
-  DeleteMode,
+  UpdateTagsResult,
 } from "@geckobot/datasource";
-import type { Project, CreateProject, UpdateProject } from "@geckobot/types";
 import type { AxiosInstance } from "axios";
 
-export default class ProjectsServiceImpl implements ProjectsService {
+export default class ExpressProjectsService implements ProjectsService {
   readonly axios: AxiosInstance;
 
   constructor(axios: AxiosInstance) {
@@ -18,8 +22,11 @@ export default class ProjectsServiceImpl implements ProjectsService {
   }
 
   async getAll(
-    options: GetAllOptions<Project> = {}
+    options: GetAllOptions<Project> = {},
+    searchTerm?: string | null
   ): Promise<GetAllResult<Project>> {
+    // TODO: Implement searchTerm functionality
+
     const { pageNo, pageSize, includeTrashed } = options;
     const { data } = await this.axios.get<GetAllResult<Project>>("/projects", {
       params: { pageNo, pageSize, includeTrashed },
@@ -58,6 +65,23 @@ export default class ProjectsServiceImpl implements ProjectsService {
     const { data } = await this.axios.delete<DeleteResult>(`/projects/${id}`, {
       params: mode === "HARD" ? { destroy: 1 } : {},
     });
+    return data;
+  }
+
+  async restore(id: Project["id"]): Promise<RestoreResult> {
+    const { data } = await this.axios.patch<RestoreResult>(`/projects/${id}`);
+    return data;
+  }
+
+  async updateTags(
+    id: Project["id"],
+    assign: Project["id"][] = [],
+    remove: Project["id"][] = []
+  ): Promise<UpdateTagsResult> {
+    const { data } = await this.axios.put<UpdateTagsResult>(
+      `/projects/${id}/tags`,
+      { assign, remove }
+    );
     return data;
   }
 }
