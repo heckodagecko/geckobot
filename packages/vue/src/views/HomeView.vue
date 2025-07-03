@@ -137,16 +137,18 @@ async function handleSubmit() {
   try {
     let response: CreateResult<Project> | UpdateResult<Project> | undefined
 
-    // Ensure ISO-8601 format
+    const { name, description } = formProject.value
+
+    let startedAt: string | null = null
     if (formProject.value.startedAt) {
-      formProject.value.startedAt = new Date(formProject.value.startedAt).toISOString()
+      startedAt = new Date(formProject.value.startedAt).toISOString()
     }
 
     if (formMode.value == DataFormMode.Create) {
-      response = await Datasource.projects.create(formProject.value as CreateProject)
+      response = await Datasource.projects.create({ name, startedAt, description } as CreateProject)
     } else if (formMode.value == DataFormMode.Update) {
       const id = (formProject.value as Project).id
-      response = await Datasource.projects.update(id, formProject.value)
+      response = await Datasource.projects.update(id, { name, startedAt, description })
     }
 
     if (!response) throw new Error('Unknown error')
