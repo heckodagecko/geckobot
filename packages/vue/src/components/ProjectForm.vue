@@ -43,7 +43,7 @@ defineExpose({ reset })
     </fieldset>
     <fieldset class="fieldset">
       <legend class="fieldset-legend">Start date</legend>
-      <input type="datetime-local" v-model="modelValue.startedAt" class="input w-full" />
+      <input type="datetime-local" step="1" v-model="modelValue.startedAt" class="input w-full" />
       <label class="fieldset-label">When this project started?</label>
     </fieldset>
     <fieldset class="fieldset">

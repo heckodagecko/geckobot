@@ -1,7 +1,9 @@
 <script lang="ts">
+import { getLocalISODateTime } from '@/utils'
+
 const formDefault: () => CreateProject = () => ({
   name: 'Untitled',
-  startedAt: new Date().toISOString().slice(0, 16),
+  startedAt: getLocalISODateTime().slice(0, 19),
 })
 </script>
 
@@ -67,7 +69,9 @@ function setEdit(data: Project) {
 }
 
 function handleEdit(data: Project) {
-  if (data.startedAt) data.startedAt = data.startedAt.slice(0, 16)
+  if (data.startedAt) {
+    data.startedAt = getLocalISODateTime(new Date(data.startedAt)).slice(0, 19)
+  }
   setEdit(data)
   formModal.value?.show()
 }
@@ -132,6 +136,11 @@ async function handleSubmit() {
 
   try {
     let response: CreateResult<Project> | UpdateResult<Project> | undefined
+
+    // Ensure ISO-8601 format
+    if (formProject.value.startedAt) {
+      formProject.value.startedAt = new Date(formProject.value.startedAt).toISOString()
+    }
 
     if (formMode.value == DataFormMode.Create) {
       response = await Datasource.projects.create(formProject.value as CreateProject)
