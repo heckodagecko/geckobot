@@ -15,12 +15,6 @@ export const projectCreateValidation = [
 ];
 
 export const projectUpdateValidation = [
-  check("body").custom((value) => {
-    if (!value || Object.keys(value).length === 0) {
-      throw new Error("Request body cannot be empty");
-    }
-    return true;
-  }),
   body("name")
     .isString()
     .optional()
@@ -28,10 +22,9 @@ export const projectUpdateValidation = [
     .trim()
     .withMessage("Name is required"),
   body("description")
-    .isString()
-    .optional()
-    .trim()
-    .withMessage("Description must be a string"),
+    .optional({ nullable: true })
+    .custom((value) => value === null || typeof value === "string")
+    .withMessage("Description must be a string or null"),
   body("startedAt").isISO8601().optional().withMessage("Date must be a date"),
 ];
 

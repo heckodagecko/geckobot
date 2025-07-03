@@ -16,7 +16,7 @@ model Project {
   description    String?
   startedAt      DateTime?
   createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
   deletedAt      DateTime?
   tags           ProjectTag[]
   TaggedProjects TaggedProjects[]
@@ -27,7 +27,7 @@ model ProjectTag {
   name           String
   color          String?
   createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @default(now())
+  updatedAt      DateTime         @default(now()) @updatedAt
   projects       Project[]
   TaggedProjects TaggedProjects[]
 }
