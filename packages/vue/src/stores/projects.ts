@@ -8,7 +8,7 @@ export const useProjectsStore = defineStore('projects', () => {
   const loading = ref(false)
 
   const items = ref<Project[]>([])
-  const totalItems = ref(1)
+  const totalItems = ref(0)
 
   const withTrashed = ref(false)
   const pageSize = ref(10)

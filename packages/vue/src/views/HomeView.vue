@@ -26,9 +26,11 @@ import ProjectForm from '@/components/ProjectForm.vue'
 import Datasource from '@/datasource'
 import { useNotifyStore } from '@/stores/notify'
 import { useProjectsStore } from '@/stores/projects'
+import { useProjectTagsStore } from '@/stores/project-tags'
 import { DataFormMode, NotificationType } from '@/types'
 
 const projectsStore = useProjectsStore()
+const projectTagsStore = useProjectTagsStore()
 const notifyStore = useNotifyStore()
 
 const searchTerm = ref('')
@@ -174,6 +176,7 @@ function handleChangeShowArchived() {
 
 onMounted(() => {
   projectsStore.loadItems()
+  projectTagsStore.loadItems()
 })
 </script>
 

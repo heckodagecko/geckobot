@@ -5,7 +5,7 @@ import ProjectTag from '@/components/ProjectTag.vue'
 
 defineProps<{
   data: {
-    color: HexColor
+    color?: HexColor | null
     label: string
   }
 }>()
