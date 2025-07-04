@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import ProjectTagListItem from '@/components/ProjectTagListItem.vue'
+import { useProjectsStore } from '@/stores/projects'
 import { useProjectTagsStore } from '@/stores/project-tags'
+import type { ProjectTag } from '@geckobot/datasource'
 
+const projectsStore = useProjectsStore()
 const projectTagsStore = useProjectTagsStore()
+
+function handleSelected(tagId: ProjectTag['id'], value: boolean) {
+  if (value) {
+    projectsStore.addTag(tagId)
+  } else {
+    projectsStore.removeTag(tagId)
+  }
+}
 </script>
 
 <template>
@@ -13,12 +24,14 @@ const projectTagsStore = useProjectTagsStore()
         <span class="loading loading-ring loading-lg"></span>
       </div>
     </li>
-    <li v-else-if="projectTagsStore.items.length === 0" class="list-row">No tags found.</li>
+    <li v-else-if="projectTagsStore.items.length === 0" class="list-row">No tags.</li>
     <template v-else>
       <ProjectTagListItem
-        v-for="({ name: label, color }, index) in projectTagsStore.items"
-        :data="{ label, color }"
+        v-for="({ id, name, color }, index) in projectTagsStore.items"
+        :selected="projectsStore.hasTags.includes(id)"
+        :data="{ name, color }"
         :key="index"
+        @update:selected="(value) => handleSelected(id, value)"
       />
     </template>
   </ul>
