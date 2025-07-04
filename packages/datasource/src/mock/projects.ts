@@ -1,6 +1,10 @@
 import { faker } from "@faker-js/faker";
 
-import { MOCK_API_DELAY, MOCK_PROJECTS_COUNT } from "./constants";
+import {
+  MOCK_API_DELAY,
+  MOCK_PROJECT_TAG_LIMIT,
+  MOCK_PROJECTS_COUNT,
+} from "./constants";
 import { projectTags } from "./project-tags";
 import type {
   CreateProject,
@@ -24,7 +28,16 @@ interface Project extends BaseProject {
 
 export const projects: Project[] = [];
 
+function getRandomUniqueTagIds(count: number): ProjectTag["id"][] {
+  const tagIds = new Set<ProjectTag["id"]>();
+  while (tagIds.size < count && tagIds.size < projectTags.length) {
+    tagIds.add(projectTags[Math.floor(Math.random() * projectTags.length)].id);
+  }
+  return Array.from(tagIds);
+}
+
 function createProject(): Project {
+  const tagCount = Math.floor(Math.random() * MOCK_PROJECT_TAG_LIMIT);
   return {
     id: projects.length + 1,
     name: faker.lorem.words(3),
@@ -33,9 +46,7 @@ function createProject(): Project {
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     deletedAt: null,
-    tags: Array(Math.floor(Math.random() * MOCK_PROJECTS_COUNT)).map(
-      () => projectTags[Math.floor(Math.random() * projectTags.length)].id
-    ),
+    tags: getRandomUniqueTagIds(tagCount),
   };
 }
 
