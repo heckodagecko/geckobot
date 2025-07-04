@@ -7,7 +7,13 @@ import type {
   DeleteResult,
   RestoreResult,
 } from "../service";
+import type { ProjectTag } from "../project-tags";
 import type { CreateProject, UpdateProject, Project } from "./data";
+
+export interface GetAllProjectsOptions extends GetAllOptions<Project> {
+  searchTerm?: string;
+  hasTags?: ProjectTag["id"][];
+}
 
 export interface UpdateTagsResult {
   message: string;
@@ -18,10 +24,7 @@ export interface UpdateTagsResult {
 }
 
 export interface ProjectsService {
-  getAll(
-    options: GetAllOptions<Project>,
-    searchTerm?: string | null
-  ): Promise<GetAllResult<Project>>;
+  getAll(options?: GetAllProjectsOptions): Promise<GetAllResult<Project>>;
   get(id: Project["id"]): Promise<Project>;
   create(data: CreateProject): Promise<CreateResult<Project>>;
   update(

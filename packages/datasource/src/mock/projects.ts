@@ -11,7 +11,6 @@ import type {
   CreateResult,
   DeleteMode,
   DeleteResult,
-  GetAllOptions,
   GetAllResult,
   Project as BaseProject,
   ProjectsService,
@@ -20,6 +19,7 @@ import type {
   UpdateProject,
   UpdateResult,
   UpdateTagsResult,
+  GetAllProjectsOptions,
 } from "../types";
 
 interface Project extends BaseProject {
@@ -56,12 +56,9 @@ for (let i = 0; i < MOCK_PROJECTS_COUNT; i++) {
 
 export default class MockProjectsService implements ProjectsService {
   async getAll(
-    options: GetAllOptions<Project> = {},
-    searchTerm?: string
+    options: GetAllProjectsOptions = {}
   ): Promise<GetAllResult<Project>> {
     await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
-
-    // TODO: Filter by tags
 
     const pageNo = options.pageNo || 1;
     const pageSize = options.pageSize || 10;
@@ -71,9 +68,16 @@ export default class MockProjectsService implements ProjectsService {
       !includeTrashed ? deletedAt == null : true
     );
 
-    if (searchTerm != null) {
+    if (options.hasTags != null && options.hasTags.length > 0) {
+      filteredItems = filteredItems.filter(({ tags }) => {
+        if (tags == null || tags.length === 0) return false;
+        return tags.some((tagId) => options.hasTags!.includes(tagId));
+      });
+    }
+
+    if (options.searchTerm != null && options.searchTerm.length > 0) {
       filteredItems = filteredItems.filter(({ name }) =>
-        name.toLowerCase().includes(searchTerm.toLowerCase())
+        name.toLowerCase().includes(options.searchTerm!.toLowerCase())
       );
     }
 
