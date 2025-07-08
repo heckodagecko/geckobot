@@ -3,6 +3,7 @@ import { UseTimeAgo } from '@vueuse/components'
 import {
   faBoxArchive,
   faEllipsis,
+  faFolder,
   faPencil,
   faRotate,
   faTrash,
@@ -21,6 +22,7 @@ interface ProjectDataTableProps {
 }
 
 interface ProjectDataTableEvents {
+  (event: 'view-files', data: Project): void
   (event: 'edit', data: Project): void
   (event: 'archive', data: Project): void
   (event: 'restore', data: Project): void
@@ -107,18 +109,26 @@ const dtFormat = new Intl.DateTimeFormat('en-US', {
                 class="dropdown-content menu bg-base-200 rounded-box z-1 w-52 p-2 shadow-lg"
               >
                 <template v-if="!loadingActions">
-                  <li>
-                    <a @click="$emit('edit', item)">
-                      <FontAwesomeIcon :icon="faPencil" class="size-[1em]" />
-                      Edit
-                    </a>
-                  </li>
-                  <li v-if="item.deletedAt == null">
-                    <a class="text-error" @click="$emit('archive', item)">
-                      <FontAwesomeIcon :icon="faBoxArchive" class="size-[1em]" />
-                      Archive
-                    </a>
-                  </li>
+                  <template v-if="item.deletedAt == null">
+                    <li>
+                      <a @click="$emit('view-files', item)">
+                        <FontAwesomeIcon :icon="faFolder" class="size-[1em]" />
+                        View files
+                      </a>
+                    </li>
+                    <li>
+                      <a @click="$emit('edit', item)">
+                        <FontAwesomeIcon :icon="faPencil" class="size-[1em]" />
+                        Edit
+                      </a>
+                    </li>
+                    <li>
+                      <a class="text-error" @click="$emit('archive', item)">
+                        <FontAwesomeIcon :icon="faBoxArchive" class="size-[1em]" />
+                        Archive
+                      </a>
+                    </li>
+                  </template>
                   <template v-else>
                     <li>
                       <a @click="$emit('restore', item)">

@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faPlus, faSearch, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useEventListener } from '@vueuse/core'
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import type {
   CreateProject,
   CreateResult,
@@ -28,6 +29,8 @@ import { useNotifyStore } from '@/stores/notify'
 import { useProjectsStore } from '@/stores/projects'
 import { useProjectTagsStore } from '@/stores/project-tags'
 import { DataFormMode, NotificationType } from '@/types'
+
+const router = useRouter()
 
 const projectsStore = useProjectsStore()
 const projectTagsStore = useProjectTagsStore()
@@ -57,6 +60,10 @@ const form = ref<InstanceType<typeof ProjectForm> | null>(null)
 const formModal = ref<InstanceType<typeof AppModal> | null>(null)
 const formProject = ref<CreateProject | UpdateProject>(formDefault())
 const formMode = ref<DataFormMode>(DataFormMode.Create)
+
+function handleViewFiles({ id }: Project) {
+  router.push({ name: 'projects.files', params: { id } })
+}
 
 function setCreate() {
   form.value?.reset()
@@ -222,6 +229,7 @@ onMounted(() => {
     <div class="mt-4">
       <ProjectDataTable
         :loadingActions="loadingActions"
+        @view-files="handleViewFiles"
         @edit="handleEdit"
         @archive="handleArchive"
         @restore="handleRestore"
