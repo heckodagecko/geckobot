@@ -43,7 +43,7 @@ const dtFormat = new Intl.DateTimeFormat('en-US', {
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-    <div class="">
+    <div>
       <div class="rounded-box border border-base-content/5 bg-base-100">
         <ProjectTagList />
       </div>
