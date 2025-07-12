@@ -9,7 +9,7 @@ interface ProjectTagListItemProps {
 }
 
 interface ProjectTagListItemEvents {
-  (e: 'update:selected', value: boolean): void
+  (event: 'update:selected', value: boolean): void
 }
 
 defineProps<ProjectTagListItemProps>()

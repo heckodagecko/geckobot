@@ -19,9 +19,9 @@ interface AppNotificationProps {
 }
 
 interface AppNotificationEvents {
-  (e: 'close'): void
-  (e: 'mouseenter'): void
-  (e: 'mouseleave'): void
+  (event: 'close'): void
+  (event: 'mouseenter'): void
+  (event: 'mouseleave'): void
 }
 
 const props = defineProps<AppNotificationProps>()
