@@ -10,11 +10,13 @@ import {
 import { reactive } from 'vue'
 import { useRoute } from 'vue-router'
 
-import FileCard from '@/components/FileCard.vue'
+import { projectSourceFiles } from '@geckobot/datasource/src/mock/project-files'
+
+import SourceFileCard from '@/components/SourceFileCard.vue'
 
 const route = useRoute()
 
-const items = reactive<boolean[]>(new Array(25).fill(false))
+const items = reactive(projectSourceFiles.map((data) => ({ selected: false, data })))
 </script>
 
 <template>
@@ -63,13 +65,14 @@ const items = reactive<boolean[]>(new Array(25).fill(false))
           </div>
         </div>
         <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 mt-4">
-          <FileCard
-            v-for="(selected, index) in items"
-            :selected="selected"
+          <SourceFileCard
+            v-for="(item, index) in items"
+            :selected="item.selected"
+            :data="item.data"
             :key="index"
             @update:selected="
               (v) => {
-                items[index] = v
+                items[index].selected = v
               }
             "
           />
