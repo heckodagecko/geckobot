@@ -1,8 +1,19 @@
-export type ProjectFileCategory = "exports" | "sources";
-
-export interface ProjectFile {
+export interface ProjectSourceFile {
   readonly id: number;
-  category: ProjectFileCategory;
+  filename: string;
+  mimetype?: string | null;
+  size: number;
+  isDirectory: boolean;
+  isExportable: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ProjectExportFile {
+  readonly id: number;
   filename: string;
   mimetype: string;
+  size: number;
+  url: string;
+  createdAt: string;
 }
