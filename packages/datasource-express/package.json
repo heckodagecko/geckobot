@@ -1,12 +1,29 @@
 {
   "name": "@geckobot/datasource-express",
+  "description": "A datasource implementation for the Express backend.",
   "version": "1.0.0",
-  "description": "A data source adaptor implementation to communicate with the Express backend.",
-  "license": "ISC",
-  "author": "Ciro Scales",
   "type": "module",
-  "main": "src/index.ts",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
+  "author": "Ciro Scales",
+  "license": "GPL-3.0-only",
   "dependencies": {
-    "@geckobot/datasource": "^1.0.0"
-  }
+    "axios": "^1.8.4"
+  },
+  "devDependencies": {
+    "@geckobot/datasource": "^1.0.0",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "rollup": "^4.45.1",
+    "typescript": "^5.8.3"
+  },
+  "files": [
+    "dist"
+  ]
 }
