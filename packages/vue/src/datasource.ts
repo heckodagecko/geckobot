@@ -1,4 +1,4 @@
-import { MockDatasource as Datasource } from '@geckobot/datasource'
+import Datasource from '@geckobot/datasource-mock'
 
 // import Datasource from '@geckobot/datasource-express'
 

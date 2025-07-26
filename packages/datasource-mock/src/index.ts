@@ -1,6 +1,10 @@
 import MockProjectsService from "./projects";
 import MockProjectTagsService from "./project-tags";
-import type { Datasource, ProjectsService, ProjectTagsService } from "../types";
+import type {
+  Datasource,
+  ProjectsService,
+  ProjectTagsService,
+} from "@geckobot/datasource";
 
 export default class MockDatasource implements Datasource {
   readonly projects: ProjectsService;

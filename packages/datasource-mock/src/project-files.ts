@@ -1,6 +1,8 @@
 import { faker } from "@faker-js/faker";
-
-import type { ProjectExportFile, ProjectSourceFile } from "../types";
+import type {
+  ProjectExportFile,
+  ProjectSourceFile,
+} from "@geckobot/datasource";
 
 export const projectSourceFiles: ProjectSourceFile[] = [];
 

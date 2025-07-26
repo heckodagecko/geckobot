@@ -1,6 +1,4 @@
 import { faker } from "@faker-js/faker";
-
-import { MOCK_API_DELAY, MOCK_PROJECT_TAGS_COUNT } from "./constants";
 import type {
   CreateProjectTag,
   CreateResult,
@@ -11,7 +9,9 @@ import type {
   ProjectTagsService,
   UpdateProjectTag,
   UpdateResult,
-} from "../types";
+} from "@geckobot/datasource";
+
+import { MOCK_API_DELAY, MOCK_PROJECT_TAGS_COUNT } from "./constants";
 
 export const projectTags: ProjectTag[] = [];
 

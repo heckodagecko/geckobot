@@ -1,11 +1,4 @@
 import { faker } from "@faker-js/faker";
-
-import {
-  MOCK_API_DELAY,
-  MOCK_PROJECT_TAG_LIMIT,
-  MOCK_PROJECTS_COUNT,
-} from "./constants";
-import { projectTags } from "./project-tags";
 import type {
   CreateProject,
   CreateResult,
@@ -20,7 +13,14 @@ import type {
   UpdateResult,
   UpdateTagsResult,
   GetAllProjectsOptions,
-} from "../types";
+} from "@geckobot/datasource";
+
+import {
+  MOCK_API_DELAY,
+  MOCK_PROJECT_TAG_LIMIT,
+  MOCK_PROJECTS_COUNT,
+} from "./constants";
+import { projectTags } from "./project-tags";
 
 interface Project extends BaseProject {
   tags?: ProjectTag["id"][];

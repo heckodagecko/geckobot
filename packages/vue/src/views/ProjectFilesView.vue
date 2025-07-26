@@ -10,7 +10,7 @@ import {
 import { reactive } from 'vue'
 import { useRoute } from 'vue-router'
 
-import { projectSourceFiles } from '@geckobot/datasource/src/mock/project-files'
+import { projectSourceFiles } from '@geckobot/datasource-mock/src/project-files'
 
 import SourceFileCard from '@/components/SourceFileCard.vue'
 
