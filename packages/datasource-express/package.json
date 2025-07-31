@@ -2,13 +2,12 @@
   "name": "@geckobot/datasource-express",
   "description": "A datasource implementation for the Express backend.",
   "version": "1.0.0",
-  "type": "module",
   "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/types/index.d.ts",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "rollup -c",
-    "watch": "rollup -c -w"
+    "build": "tsup",
+    "watch": "tsup --watch"
   },
   "author": "Ciro Scales",
   "license": "GPL-3.0-only",
@@ -17,10 +16,7 @@
   },
   "devDependencies": {
     "@geckobot/datasource": "^1.0.0",
-    "@rollup/plugin-commonjs": "^28.0.6",
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-typescript": "^12.1.4",
-    "rollup": "^4.45.1",
+    "tsup": "^8.5.0",
     "typescript": "^5.8.3"
   },
   "files": [
