@@ -8,5 +8,4 @@ export default defineConfig({
   minify: true,
   sourcemap: true,
   splitting: false,
-  target: "esnext",
 });
