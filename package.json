@@ -2,10 +2,21 @@
   "name": "geckobot",
   "version": "1.0.0",
   "private": true,
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "dev": "cd packages/vue ; npm run dev",
-    "start": "cd packages/express ; npm run dev",
-    "migrate": "cd packages/express ; prisma migrate dev"
+    "dev-vue": "npm -w packages/vue run dev",
+    "build-vue": "npm -w packages/vue run build",
+    "start-express": "npm -w packages/express run dev",
+    "watch-datasource": "npm -w packages/datasource run watch",
+    "watch-datasource-express": "npm -w packages/datasource-express run watch",
+    "watch-datasource-mock": "npm -w packages/datasource-mock run watch",
+    "watch-all": "concurrently \"npm run watch-datasource\" \"npm run watch-datasource-express\" \"npm run watch-datasource-mock\"",
+    "dev": "concurrently \"npm run dev-vue\" \"npm run start-express\" \"npm run watch-all\"",
+    "migrate": "npx -w packages/express prisma migrate dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
   }
 }
