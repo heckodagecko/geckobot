@@ -1,16 +1,21 @@
 import type {
-  GetAllOptions,
-  GetAllResult,
   CreateResult,
-  UpdateResult,
   DeleteMode,
   DeleteResult,
+  GetAllOptionsPagination,
+  GetAllOptionsSortable,
+  GetAllOptionsWithTrashed,
+  GetAllResult,
   RestoreResult,
+  UpdateResult,
 } from "../service";
 import type { ProjectTag } from "../project-tags";
 import type { CreateProject, UpdateProject, Project } from "./data";
 
-export interface GetAllProjectsOptions extends GetAllOptions<Project> {
+export interface GetAllProjectsOptions
+  extends GetAllOptionsPagination,
+    GetAllOptionsSortable<Project>,
+    GetAllOptionsWithTrashed {
   searchTerm?: string;
   hasTags?: ProjectTag["id"][];
 }

@@ -2,10 +2,16 @@ export type SortMode = "ASC" | "DESC";
 
 export type SortOptions<T extends object> = [keyof T, SortMode][];
 
-export interface GetAllOptions<T extends object> {
+export interface GetAllOptionsSortable<T extends object> {
   sortBy?: SortOptions<T>;
+}
+
+export interface GetAllOptionsPagination {
   pageNo?: number;
   pageSize?: number;
+}
+
+export interface GetAllOptionsWithTrashed {
   includeTrashed?: boolean;
 }
 
