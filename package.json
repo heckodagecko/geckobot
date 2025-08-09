@@ -10,9 +10,13 @@
     "build-vue": "npm -w packages/vue run build",
     "start-express": "npm -w packages/express run dev",
     "watch-datasource": "npm -w packages/datasource run watch",
+    "build-datasource": "npm -w packages/datasource run build",
     "watch-datasource-express": "npm -w packages/datasource-express run watch",
+    "build-datasource-express": "npm -w packages/datasource-express run build",
     "watch-datasource-mock": "npm -w packages/datasource-mock run watch",
+    "build-datasource-mock": "npm -w packages/datasource-mock run build",
     "watch-all": "concurrently \"npm run watch-datasource\" \"npm run watch-datasource-express\" \"npm run watch-datasource-mock\"",
+    "build-all": "concurrently \"npm run build-datasource\" \"npm run build-datasource-express\" \"npm run build-datasource-mock\"",
     "dev": "concurrently \"npm run dev-vue\" \"npm run start-express\" \"npm run watch-all\"",
     "migrate": "npx -w packages/express prisma migrate dev"
   },
