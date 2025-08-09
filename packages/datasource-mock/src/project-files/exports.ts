@@ -1,6 +1,9 @@
 import { faker } from "@faker-js/faker";
 import type {
+  CreateResult,
+  DeleteResult,
   GetAllProjectExportFilesOptions,
+  GetAllResult,
   Project,
   ProjectExportFile,
   ProjectExportFilesService,
@@ -32,7 +35,7 @@ export default class MockProjectExportFilesService
   async getAll(
     _: Project["id"],
     options: GetAllProjectExportFilesOptions = {}
-  ) {
+  ): Promise<GetAllResult<ProjectExportFile>> {
     await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
 
     const pageNo = options.pageNo || 1;
@@ -51,19 +54,22 @@ export default class MockProjectExportFilesService
     };
   }
 
-  async get(id: ProjectExportFile["id"]) {
+  async get(id: ProjectExportFile["id"]): Promise<ProjectExportFile> {
     throw new Error("Method not implemented.");
   }
 
-  async upload(projectId: Project["id"], file: File) {
+  async upload(
+    projectId: Project["id"],
+    file: File
+  ): Promise<CreateResult<ProjectExportFile>> {
     throw new Error("Method not implemented.");
   }
 
-  async delete(id: ProjectExportFile["id"]) {
+  async delete(id: ProjectExportFile["id"]): Promise<DeleteResult> {
     throw new Error("Method not implemented.");
   }
 
-  async download(id: ProjectExportFile["id"]) {
+  async download(id: ProjectExportFile["id"]): Promise<unknown> {
     throw new Error("Method not implemented.");
   }
 }

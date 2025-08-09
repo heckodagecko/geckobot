@@ -1,10 +1,14 @@
 import { faker } from "@faker-js/faker";
 import {
   CreateProjectSourceFolder,
+  CreateResult,
   GetAllProjectSourceFilesOptions,
+  GetAllResult,
   Project,
+  ProjectExportFile,
   ProjectSourceFile,
   ProjectSourceFilesService,
+  UpdateResult,
 } from "@geckobot/datasource";
 
 import { MOCK_API_DELAY } from "../constants";
@@ -51,7 +55,7 @@ export default class MockProjectSourceFilesService
   async getAll(
     _: Project["id"],
     options: GetAllProjectSourceFilesOptions = {}
-  ) {
+  ): Promise<GetAllResult<ProjectSourceFile>> {
     await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
 
     const pageNo = options.pageNo || 1;
@@ -79,7 +83,7 @@ export default class MockProjectSourceFilesService
     };
   }
 
-  async get(id: ProjectSourceFile["id"]) {
+  async get(id: ProjectSourceFile["id"]): Promise<ProjectSourceFile> {
     await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
 
     const file = projectSourceFiles.find(({ id: _id }) => _id === id);
@@ -91,7 +95,10 @@ export default class MockProjectSourceFilesService
     return file;
   }
 
-  async createFolder(_: Project["id"], { name }: CreateProjectSourceFolder) {
+  async createFolder(
+    _: Project["id"],
+    { name }: CreateProjectSourceFolder
+  ): Promise<CreateResult<ProjectSourceFile>> {
     await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
 
     const folder: ProjectSourceFile = {
@@ -111,19 +118,26 @@ export default class MockProjectSourceFilesService
     };
   }
 
-  async createExport(id: ProjectSourceFile["id"]) {
+  async createExport(
+    id: ProjectSourceFile["id"]
+  ): Promise<CreateResult<ProjectExportFile>> {
     throw new Error("Method not implemented.");
   }
 
-  async uploadFile(projectId: Project["id"], file: File) {
+  async uploadFile(
+    projectId: Project["id"],
+    file: File
+  ): Promise<CreateResult<ProjectSourceFile>> {
     throw new Error("Method not implemented.");
   }
 
-  async rename(id: ProjectSourceFile["id"]) {
+  async rename(
+    id: ProjectSourceFile["id"]
+  ): Promise<UpdateResult<ProjectSourceFile>> {
     throw new Error("Method not implemented.");
   }
 
-  async delete(id: ProjectSourceFile["id"]) {
+  async delete(id: ProjectSourceFile["id"]): Promise<unknown> {
     throw new Error("Method not implemented.");
   }
 }
