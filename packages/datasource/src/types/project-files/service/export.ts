@@ -1,14 +1,18 @@
-import { Project } from "../../projects";
-import { ProjectExportFile } from "../data";
-import { GetAllProjectExportFilesOptions } from "./types";
+import type { Project } from "../../projects";
+import type { CreateResult, DeleteResult, GetAllResult } from "../../service";
+import type { ProjectExportFile } from "../data";
+import type { GetAllProjectExportFilesOptions } from "./types";
 
 export interface ProjectExportFilesService {
   getAll(
     projectId: Project["id"],
     options?: GetAllProjectExportFilesOptions
-  ): any;
-  get(id: ProjectExportFile["id"]): any;
-  upload(projectId: Project["id"], file: File): any;
-  delete(id: ProjectExportFile["id"]): any;
-  download(id: ProjectExportFile["id"]): any;
+  ): Promise<GetAllResult<ProjectExportFile>>;
+  get(id: ProjectExportFile["id"]): Promise<ProjectExportFile>;
+  upload(
+    projectId: Project["id"],
+    file: File
+  ): Promise<CreateResult<ProjectExportFile>>;
+  delete(id: ProjectExportFile["id"]): Promise<DeleteResult>;
+  download(id: ProjectExportFile["id"]): Promise<unknown>;
 }

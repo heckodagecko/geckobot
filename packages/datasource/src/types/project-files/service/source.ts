@@ -1,5 +1,6 @@
 import type { Project } from "../../projects";
-import type { ProjectSourceFile } from "../data";
+import type { CreateResult, GetAllResult, UpdateResult } from "../../service";
+import type { ProjectExportFile, ProjectSourceFile } from "../data";
 import type {
   CreateProjectSourceFolder,
   GetAllProjectSourceFilesOptions,
@@ -9,11 +10,19 @@ export interface ProjectSourceFilesService {
   getAll(
     projectId: Project["id"],
     options?: GetAllProjectSourceFilesOptions
-  ): void;
-  get(id: ProjectSourceFile["id"]): void;
-  createFolder(projectId: Project["id"], data: CreateProjectSourceFolder): void;
-  createExport(id: ProjectSourceFile["id"]): void;
-  uploadFile(projectId: Project["id"], file: File): void;
-  rename(id: ProjectSourceFile["id"]): void;
-  delete(id: ProjectSourceFile["id"]): void;
+  ): Promise<GetAllResult<ProjectSourceFile>>;
+  get(id: ProjectSourceFile["id"]): Promise<ProjectSourceFile>;
+  createFolder(
+    projectId: Project["id"],
+    data: CreateProjectSourceFolder
+  ): Promise<CreateResult<ProjectSourceFile>>;
+  createExport(
+    id: ProjectSourceFile["id"]
+  ): Promise<CreateResult<ProjectExportFile>>;
+  uploadFile(
+    projectId: Project["id"],
+    file: File
+  ): Promise<CreateResult<ProjectSourceFile>>;
+  rename(id: ProjectSourceFile["id"]): Promise<UpdateResult<ProjectSourceFile>>;
+  delete(id: ProjectSourceFile["id"]): Promise<unknown>;
 }
