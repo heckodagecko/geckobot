@@ -3,7 +3,7 @@ import type {
   CreateResult,
   DeleteMode,
   DeleteResult,
-  GetAllOptions,
+  GetAllProjectsOptions,
   GetAllResult,
   Project,
   ProjectsService,
@@ -22,8 +22,7 @@ export default class ExpressProjectsService implements ProjectsService {
   }
 
   async getAll(
-    options: GetAllOptions<Project> = {},
-    searchTerm?: string | null
+    options: GetAllProjectsOptions = {}
   ): Promise<GetAllResult<Project>> {
     // TODO: Implement searchTerm functionality
 
