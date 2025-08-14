@@ -7,16 +7,25 @@ import {
   faFolder as faFolderSolid,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons'
-import { reactive } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-
-import { projectSourceFiles } from '@geckobot/datasource-mock/src/project-files'
+import type { ProjectSourceFile } from '@geckobot/datasource'
 
 import SourceFileCard from '@/components/SourceFileCard.vue'
+import Datasource from '@/datasource'
+import type { DataItem } from '@/types'
 
 const route = useRoute()
 
-const items = reactive(projectSourceFiles.map((data) => ({ selected: false, data })))
+const items = ref<DataItem<ProjectSourceFile>[]>([])
+
+onMounted(async () => {
+  const { data } = await Datasource.projectFiles.sources.getAll(
+    parseInt(route.params.id as string),
+    { pageSize: 50 },
+  )
+  items.value = data.map((data) => ({ selected: false, data }))
+})
 </script>
 
 <template>

@@ -153,8 +153,11 @@ function getIcon(mimetype?: string | null) {
           </div>
           <div class="flex-none">
             <div class="flex">
-              <span class="font-semibold truncate">{{ fileBaseName }}</span>
-              <span class="opacity-50">{{ fileExtension }}</span>
+              <template v-if="!data.isDirectory">
+                <span class="font-semibold truncate">{{ fileBaseName }}</span>
+                <span class="opacity-50">{{ fileExtension }}</span>
+              </template>
+              <span v-else>{{ data.filename }}</span>
             </div>
             <div class="opacity-50">
               <UseTimeAgo #="{ timeAgo }" :time="new Date(data.createdAt)">
