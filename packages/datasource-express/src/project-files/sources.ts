@@ -38,16 +38,16 @@ export default class ExpressProjectSourceFilesService
     throw new Error("Method not implemented.");
   }
 
-  async createExport(
-    id: ProjectSourceFile["id"]
-  ): Promise<CreateResult<ProjectExportFile>> {
-    throw new Error("Method not implemented.");
-  }
-
   async uploadFile(
     projectId: Project["id"],
     file: File
   ): Promise<CreateResult<ProjectSourceFile>> {
+    throw new Error("Method not implemented.");
+  }
+
+  async createExport(
+    id: ProjectSourceFile["id"]
+  ): Promise<CreateResult<ProjectExportFile>> {
     throw new Error("Method not implemented.");
   }
 
