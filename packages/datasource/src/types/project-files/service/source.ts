@@ -16,13 +16,16 @@ export interface ProjectSourceFilesService {
     projectId: Project["id"],
     data: CreateProjectSourceFolder
   ): Promise<CreateResult<ProjectSourceFile>>;
-  createExport(
-    id: ProjectSourceFile["id"]
-  ): Promise<CreateResult<ProjectExportFile>>;
   uploadFile(
     projectId: Project["id"],
     file: File
   ): Promise<CreateResult<ProjectSourceFile>>;
-  rename(id: ProjectSourceFile["id"]): Promise<UpdateResult<ProjectSourceFile>>;
+  createExport(
+    id: ProjectSourceFile["id"]
+  ): Promise<CreateResult<ProjectExportFile>>;
+  rename(
+    id: ProjectSourceFile["id"],
+    newFilename: string
+  ): Promise<UpdateResult<ProjectSourceFile>>;
   delete(id: ProjectSourceFile["id"]): Promise<unknown>;
 }

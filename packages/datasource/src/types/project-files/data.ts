@@ -11,6 +11,7 @@ export interface ProjectSourceFile {
 
 export interface ProjectExportFile {
   readonly id: number;
+  readonly exportedFrom?: ProjectSourceFile["id"] | null;
   filename: string;
   mimetype: string;
   size: number;
