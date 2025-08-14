@@ -12,6 +12,7 @@ import {
 } from "@geckobot/datasource";
 
 import { MOCK_API_DELAY } from "../constants";
+import { projectExportFiles } from "./exports";
 import { getRandomBytes } from "./utils";
 
 export const projectSourceFiles: ProjectSourceFile[] = [];
@@ -61,7 +62,6 @@ export default class MockProjectSourceFilesService
     const pageNo = options.pageNo || 1;
     const pageSize = options.pageSize || 10;
 
-    // Group by directories and files, then sort by filename
     let data = projectSourceFiles
       .sort((a, b) => a.filename.localeCompare(b.filename))
       .reduce((acc, file) => {
@@ -118,26 +118,90 @@ export default class MockProjectSourceFilesService
     };
   }
 
+  async uploadFile(
+    _: Project["id"],
+    file: File
+  ): Promise<CreateResult<ProjectSourceFile>> {
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const sourceFile: ProjectSourceFile = {
+      id: projectSourceFiles.length + 1,
+      filename: file.name,
+      size: getRandomBytes(),
+      isDirectory: false,
+      isExportable: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    projectSourceFiles.push(sourceFile);
+
+    return {
+      message: "Source file has been successfully updated",
+      data: sourceFile,
+    };
+  }
+
   async createExport(
     id: ProjectSourceFile["id"]
   ): Promise<CreateResult<ProjectExportFile>> {
-    throw new Error("Method not implemented.");
-  }
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
 
-  async uploadFile(
-    projectId: Project["id"],
-    file: File
-  ): Promise<CreateResult<ProjectSourceFile>> {
-    throw new Error("Method not implemented.");
+    const index = projectSourceFiles.findIndex(({ id: _id }) => id === _id);
+    if (index === -1) {
+      throw new Error("Source file not found");
+    }
+
+    if (!projectSourceFiles[index].isExportable) {
+      throw new Error("This source file can't export");
+    }
+
+    const exportFile: ProjectExportFile = {
+      id: projectExportFiles.length + 1,
+      filename: faker.system.commonFileName(),
+      mimetype: faker.system.mimeType(),
+      size: getRandomBytes(),
+      url: faker.internet.url(),
+      exportedFrom: projectSourceFiles[index].id,
+      createdAt: new Date().toISOString(),
+    };
+
+    return {
+      message: "Export file has been successfully created from source file",
+      data: exportFile,
+    };
   }
 
   async rename(
-    id: ProjectSourceFile["id"]
+    id: ProjectSourceFile["id"],
+    newFilename: string
   ): Promise<UpdateResult<ProjectSourceFile>> {
-    throw new Error("Method not implemented.");
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const index = projectSourceFiles.findIndex(({ id: _id }) => _id === id);
+    if (index === -1) {
+      throw new Error("Source file not found");
+    }
+
+    projectSourceFiles[index].filename = newFilename;
+
+    return {
+      message: "Source file has been successfully renamed",
+      data: projectSourceFiles[index],
+    };
   }
 
   async delete(id: ProjectSourceFile["id"]): Promise<unknown> {
-    throw new Error("Method not implemented.");
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const index = projectSourceFiles.findIndex(({ id: _id }) => _id === id);
+    if (index === -1) {
+      throw new Error("Source file not found");
+    }
+
+    projectSourceFiles.splice(index, 1);
+
+    return {
+      message: "Source file has been deleted",
+    };
   }
 }

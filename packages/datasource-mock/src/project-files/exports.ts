@@ -55,18 +55,52 @@ export default class MockProjectExportFilesService
   }
 
   async get(id: ProjectExportFile["id"]): Promise<ProjectExportFile> {
-    throw new Error("Method not implemented.");
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const file = projectExportFiles.find(({ id: _id }) => _id === id);
+
+    if (file == null) {
+      throw new Error("File not found.");
+    }
+
+    return file;
   }
 
   async upload(
-    projectId: Project["id"],
+    _: Project["id"],
     file: File
   ): Promise<CreateResult<ProjectExportFile>> {
-    throw new Error("Method not implemented.");
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const exportFile: ProjectExportFile = {
+      id: projectExportFiles.length + 1,
+      filename: file.name,
+      mimetype: faker.system.mimeType(),
+      size: getRandomBytes(),
+      url: faker.internet.url(),
+      createdAt: new Date().toISOString(),
+    };
+    projectExportFiles.push(exportFile);
+
+    return {
+      message: "Export file has been successfully uploaded",
+      data: exportFile,
+    };
   }
 
   async delete(id: ProjectExportFile["id"]): Promise<DeleteResult> {
-    throw new Error("Method not implemented.");
+    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+
+    const index = projectExportFiles.findIndex(({ id: _id }) => _id === id);
+    if (index === -1) {
+      throw new Error("Export file not found");
+    }
+
+    projectExportFiles.splice(index, 1);
+
+    return {
+      message: "Export file has been deleted",
+    };
   }
 
   async download(id: ProjectExportFile["id"]): Promise<unknown> {
