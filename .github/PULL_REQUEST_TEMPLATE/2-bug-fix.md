@@ -1,39 +1,69 @@
-# Bug fix
+# 🐛 [BUGFIX] <Brief Title>
 
-## Summary
+<!-- Provide a concise title that describes the bug and fix -->
 
-Provide a concise description of the bug and the fix.
+## 🔗 Related Issue
+<!-- Link to the issue being fixed -->
+Fixes #
 
-## Issue Link
+## 📋 Summary
+<!-- Brief description of the bug and the fix -->
 
-Link to the issue being addressed.
+## 🔍 Root Cause Analysis
+<!-- Detailed explanation of what caused the bug and how it was identified -->
+- 
 
-## Root Cause Analysis
+## 🛠️ Changes Made
+<!-- Detailed list of changes to fix the bug -->
+- 
 
-Detail the root cause of the bug and how it was identified.
+## 🧪 Testing Performed
+<!-- Describe how you verified the fix -->
 
-## Changes
+### Test Cases
+- [ ] Verified fix resolves the reported issue
+- [ ] Added regression test case
+- [ ] Verified no new issues were introduced
 
-Outline the changes made to fix the bug.
+### Test Coverage
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] Manual testing completed
 
-## Impact
+## 📊 Impact Analysis
+<!-- What other parts of the system could be affected by this change? -->
+- 
 
-Describe any implications this fix may have on other parts of the application.
+## ⚠️ Potential Risks
+<!-- Any potential risks or side effects of this fix -->
+- 
 
-## Testing Strategy
+## 🛡️ Mitigation Strategies
+<!-- Steps taken to minimize risks -->
+- 
 
-Explain how the fix has been tested to ensure the bug is resolved without introducing new issues.
+## 📝 Documentation Updates
+- [ ] Code comments updated
+- [ ] User documentation updated
+- [ ] API documentation updated
+- [ ] Changelog updated
 
-## Regression Risk
+## 🧰 Additional Context
+<!-- Any other relevant information, screenshots, or logs -->
 
-Assess the risk of regression caused by this fix and steps taken to mitigate it.
+## ✅ Checklist
+- [ ] Code follows project style guide
+- [ ] Linter passes
+- [ ] TypeScript types are correct
+- [ ] No new TypeScript/ESLint warnings
+- [ ] No console errors in development
+- [ ] All existing tests pass
+- [ ] New tests cover the fix
+- [ ] Documentation is up to date
 
-## Checklist
+## 🔄 Rollback Plan
+<!-- Steps to revert if needed -->
+1. 
 
-- [ ] The fix has been locally tested
-- [ ] New unit tests have been added to prevent future regressions
-- [ ] The documentation has been updated if necessary
-
-## Additional Notes
-
-Any further information needed to understand the fix or its impact.
+## 📋 Additional Notes
+<!-- Any other information that might be helpful -->
