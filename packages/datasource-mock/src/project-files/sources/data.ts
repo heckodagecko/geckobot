@@ -1,8 +1,8 @@
 import { faker } from "@faker-js/faker";
 import type { ProjectSourceFile } from "@geckobot/datasource";
 
-import { getRandomBytes } from "../utils";
 import { MOCK_PROJECT_FILE_SOURCES_COUNT } from "../../constants";
+import { getRandomBytes } from "../utils";
 
 export function createProjectSourceFile(
   id: ProjectSourceFile["id"]
