@@ -6,7 +6,7 @@ import { MOCK_PROJECT_TAGS_COUNT } from "../constants";
 export function createProjectTag(id: ProjectTag["id"]): ProjectTag {
   return {
     id,
-    name: `Tag ${projectTags.length + 1}`,
+    name: `Tag #${id}`,
     color: faker.color.rgb() as HexColor,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
