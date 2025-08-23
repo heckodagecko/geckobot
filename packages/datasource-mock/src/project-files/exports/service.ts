@@ -1,33 +1,17 @@
 import { faker } from "@faker-js/faker";
 import type {
-  CreateResult,
-  DeleteResult,
+  ProjectExportFilesService,
+  Project,
   GetAllProjectExportFilesOptions,
   GetAllResult,
-  Project,
   ProjectExportFile,
-  ProjectExportFilesService,
+  CreateResult,
+  DeleteResult,
 } from "@geckobot/datasource";
 
-import { MOCK_API_DELAY } from "../constants";
-import { getRandomBytes } from "./utils";
-
-export const projectExportFiles: ProjectExportFile[] = [];
-
-function createProjectExportFile(): ProjectExportFile {
-  return {
-    id: projectExportFiles.length + 1,
-    filename: faker.system.commonFileName(),
-    mimetype: faker.system.mimeType(),
-    size: getRandomBytes(),
-    url: faker.internet.url(),
-    createdAt: new Date().toISOString(),
-  };
-}
-
-for (let i = 0; i < 50; i++) {
-  projectExportFiles.push(createProjectExportFile());
-}
+import { MOCK_API_DELAY } from "../../constants";
+import { getRandomBytes } from "../utils";
+import { projectExportFiles } from "./data";
 
 export default class MockProjectExportFilesService
   implements ProjectExportFilesService

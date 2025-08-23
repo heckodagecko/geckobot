@@ -1,54 +1,20 @@
 import { faker } from "@faker-js/faker";
-import {
-  CreateProjectSourceFolder,
-  CreateResult,
+import type {
+  ProjectSourceFilesService,
+  Project,
   GetAllProjectSourceFilesOptions,
   GetAllResult,
-  Project,
-  ProjectExportFile,
   ProjectSourceFile,
-  ProjectSourceFilesService,
+  CreateProjectSourceFolder,
+  CreateResult,
+  ProjectExportFile,
   UpdateResult,
 } from "@geckobot/datasource";
 
-import { MOCK_API_DELAY } from "../constants";
-import { projectExportFiles } from "./exports";
-import { getRandomBytes } from "./utils";
-
-export const projectSourceFiles: ProjectSourceFile[] = [];
-
-function createProjectSourceFile(): ProjectSourceFile {
-  return {
-    id: projectSourceFiles.length + 1,
-    filename: faker.system.commonFileName(),
-    mimetype: faker.system.mimeType(),
-    size: getRandomBytes(),
-    isDirectory: false,
-    isExportable: Math.random() < 0.5,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-}
-
-function createProjectSourceDirectory(): ProjectSourceFile {
-  return {
-    id: projectSourceFiles.length + 1,
-    filename: faker.lorem.word(),
-    size: getRandomBytes(),
-    isDirectory: true,
-    isExportable: false,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-}
-
-for (let i = 0; i < 24; i++) {
-  if (Math.random() < 0.25) {
-    projectSourceFiles.push(createProjectSourceDirectory());
-  } else {
-    projectSourceFiles.push(createProjectSourceFile());
-  }
-}
+import { MOCK_API_DELAY } from "../../constants";
+import { projectExportFiles } from "../exports";
+import { getRandomBytes } from "../utils";
+import { projectSourceFiles } from "./data";
 
 export default class MockProjectSourceFilesService
   implements ProjectSourceFilesService

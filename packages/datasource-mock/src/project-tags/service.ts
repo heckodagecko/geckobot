@@ -1,33 +1,16 @@
-import { faker } from "@faker-js/faker";
 import type {
+  ProjectTagsService,
+  GetAllResult,
+  ProjectTag,
   CreateProjectTag,
   CreateResult,
-  DeleteResult,
-  GetAllResult,
-  HexColor,
-  ProjectTag,
-  ProjectTagsService,
   UpdateProjectTag,
   UpdateResult,
+  DeleteResult,
 } from "@geckobot/datasource";
 
-import { MOCK_API_DELAY, MOCK_PROJECT_TAGS_COUNT } from "./constants";
-
-export const projectTags: ProjectTag[] = [];
-
-function createProjectTag(): ProjectTag {
-  return {
-    id: projectTags.length + 1,
-    name: `Tag ${projectTags.length + 1}`,
-    color: faker.color.rgb() as HexColor,
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-  };
-}
-
-for (let i = 0; i < MOCK_PROJECT_TAGS_COUNT; i++) {
-  projectTags.push(createProjectTag());
-}
+import { MOCK_API_DELAY } from "../constants";
+import { projectTags } from "./data";
 
 export default class MockProjectTagsService implements ProjectTagsService {
   async getAll(): Promise<GetAllResult<ProjectTag>> {

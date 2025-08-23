@@ -1,58 +1,21 @@
-import { faker } from "@faker-js/faker";
 import type {
+  ProjectsService,
+  GetAllProjectsOptions,
+  GetAllResult,
+  Project,
   CreateProject,
   CreateResult,
-  DeleteMode,
-  DeleteResult,
-  GetAllResult,
-  Project as BaseProject,
-  ProjectsService,
-  ProjectTag,
-  RestoreResult,
   UpdateProject,
   UpdateResult,
+  DeleteMode,
+  DeleteResult,
+  RestoreResult,
+  ProjectTag,
   UpdateTagsResult,
-  GetAllProjectsOptions,
 } from "@geckobot/datasource";
 
-import {
-  MOCK_API_DELAY,
-  MOCK_PROJECT_TAG_LIMIT,
-  MOCK_PROJECTS_COUNT,
-} from "./constants";
-import { projectTags } from "./project-tags";
-
-interface Project extends BaseProject {
-  tags?: ProjectTag["id"][];
-}
-
-export const projects: Project[] = [];
-
-function getRandomUniqueTagIds(count: number): ProjectTag["id"][] {
-  const tagIds = new Set<ProjectTag["id"]>();
-  while (tagIds.size < count && tagIds.size < projectTags.length) {
-    tagIds.add(projectTags[Math.floor(Math.random() * projectTags.length)].id);
-  }
-  return Array.from(tagIds);
-}
-
-function createProject(): Project {
-  const tagCount = Math.floor(Math.random() * MOCK_PROJECT_TAG_LIMIT);
-  return {
-    id: projects.length + 1,
-    name: faker.lorem.words(3),
-    description: faker.lorem.sentence(),
-    startedAt: Math.random() > 0.75 ? null : faker.date.past().toISOString(),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
-    deletedAt: null,
-    tags: getRandomUniqueTagIds(tagCount),
-  };
-}
-
-for (let i = 0; i < MOCK_PROJECTS_COUNT; i++) {
-  projects.push(createProject());
-}
+import { MOCK_API_DELAY } from "../constants";
+import { projects } from "./data";
 
 export default class MockProjectsService implements ProjectsService {
   async getAll(
