@@ -9,7 +9,7 @@ import type {
   DeleteResult,
 } from "@geckobot/datasource";
 
-import { MOCK_API_DELAY } from "../../constants";
+import { delay } from "../../utils";
 import { getRandomBytes } from "../utils";
 import { projectExportFiles } from "./data";
 
@@ -20,7 +20,7 @@ export default class MockProjectExportFilesService
     _: Project["id"],
     options: GetAllProjectExportFilesOptions = {}
   ): Promise<GetAllResult<ProjectExportFile>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const pageNo = options.pageNo || 1;
     const pageSize = options.pageSize || 10;
@@ -39,7 +39,7 @@ export default class MockProjectExportFilesService
   }
 
   async get(id: ProjectExportFile["id"]): Promise<ProjectExportFile> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const file = projectExportFiles.find(({ id: _id }) => _id === id);
 
@@ -54,7 +54,7 @@ export default class MockProjectExportFilesService
     _: Project["id"],
     file: File
   ): Promise<CreateResult<ProjectExportFile>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const exportFile: ProjectExportFile = {
       id: projectExportFiles.length + 1,
@@ -73,7 +73,7 @@ export default class MockProjectExportFilesService
   }
 
   async delete(id: ProjectExportFile["id"]): Promise<DeleteResult> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projectExportFiles.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {

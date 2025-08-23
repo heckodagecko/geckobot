@@ -11,7 +11,7 @@ import type {
   UpdateResult,
 } from "@geckobot/datasource";
 
-import { MOCK_API_DELAY } from "../../constants";
+import { delay } from "../../utils";
 import { projectExportFiles } from "../exports";
 import { getRandomBytes } from "../utils";
 import { projectSourceFiles } from "./data";
@@ -23,7 +23,7 @@ export default class MockProjectSourceFilesService
     _: Project["id"],
     options: GetAllProjectSourceFilesOptions = {}
   ): Promise<GetAllResult<ProjectSourceFile>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const pageNo = options.pageNo || 1;
     const pageSize = options.pageSize || 10;
@@ -50,7 +50,7 @@ export default class MockProjectSourceFilesService
   }
 
   async get(id: ProjectSourceFile["id"]): Promise<ProjectSourceFile> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const file = projectSourceFiles.find(({ id: _id }) => _id === id);
 
@@ -65,7 +65,7 @@ export default class MockProjectSourceFilesService
     _: Project["id"],
     { name }: CreateProjectSourceFolder
   ): Promise<CreateResult<ProjectSourceFile>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const folder: ProjectSourceFile = {
       id: projectSourceFiles.length + 1,
@@ -88,7 +88,7 @@ export default class MockProjectSourceFilesService
     _: Project["id"],
     file: File
   ): Promise<CreateResult<ProjectSourceFile>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const sourceFile: ProjectSourceFile = {
       id: projectSourceFiles.length + 1,
@@ -110,7 +110,7 @@ export default class MockProjectSourceFilesService
   async createExport(
     id: ProjectSourceFile["id"]
   ): Promise<CreateResult<ProjectExportFile>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projectSourceFiles.findIndex(({ id: _id }) => id === _id);
     if (index === -1) {
@@ -141,7 +141,7 @@ export default class MockProjectSourceFilesService
     id: ProjectSourceFile["id"],
     newFilename: string
   ): Promise<UpdateResult<ProjectSourceFile>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projectSourceFiles.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {
@@ -157,7 +157,7 @@ export default class MockProjectSourceFilesService
   }
 
   async delete(id: ProjectSourceFile["id"]): Promise<unknown> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projectSourceFiles.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {

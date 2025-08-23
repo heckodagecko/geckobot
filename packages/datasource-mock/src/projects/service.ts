@@ -14,14 +14,14 @@ import type {
   UpdateTagsResult,
 } from "@geckobot/datasource";
 
-import { MOCK_API_DELAY } from "../constants";
+import { delay } from "../utils";
 import { projects } from "./data";
 
 export default class MockProjectsService implements ProjectsService {
   async getAll(
     options: GetAllProjectsOptions = {}
   ): Promise<GetAllResult<Project>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const pageNo = options.pageNo || 1;
     const pageSize = options.pageSize || 10;
@@ -57,7 +57,7 @@ export default class MockProjectsService implements ProjectsService {
   }
 
   async get(id: Project["id"]): Promise<Project> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const project = projects.find(({ id: _id }) => _id === id);
 
@@ -73,7 +73,7 @@ export default class MockProjectsService implements ProjectsService {
     description,
     startedAt,
   }: CreateProject): Promise<CreateResult<Project>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const project: Project = {
       id: projects.length + 1,
@@ -96,7 +96,7 @@ export default class MockProjectsService implements ProjectsService {
     id: Project["id"],
     data: UpdateProject
   ): Promise<UpdateResult<Project>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projects.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {
@@ -120,7 +120,7 @@ export default class MockProjectsService implements ProjectsService {
     id: Project["id"],
     mode: DeleteMode = "SOFT"
   ): Promise<DeleteResult> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projects.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {
@@ -142,7 +142,7 @@ export default class MockProjectsService implements ProjectsService {
   }
 
   async restore(id: Project["id"]): Promise<RestoreResult> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projects.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {
@@ -159,7 +159,7 @@ export default class MockProjectsService implements ProjectsService {
     assign: ProjectTag["id"][] = [],
     remove: ProjectTag["id"][] = []
   ): Promise<UpdateTagsResult> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projects.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {

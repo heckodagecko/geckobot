@@ -9,12 +9,12 @@ import type {
   DeleteResult,
 } from "@geckobot/datasource";
 
-import { MOCK_API_DELAY } from "../constants";
+import { delay } from "../utils";
 import { projectTags } from "./data";
 
 export default class MockProjectTagsService implements ProjectTagsService {
   async getAll(): Promise<GetAllResult<ProjectTag>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     return {
       data: projectTags,
@@ -23,7 +23,7 @@ export default class MockProjectTagsService implements ProjectTagsService {
   }
 
   async get(id: ProjectTag["id"]): Promise<ProjectTag> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const tag = projectTags.find(({ id: _id }) => _id === id);
 
@@ -38,7 +38,7 @@ export default class MockProjectTagsService implements ProjectTagsService {
     name,
     color,
   }: CreateProjectTag): Promise<CreateResult<ProjectTag>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const tag: ProjectTag = {
       id: projectTags.length + 1,
@@ -59,7 +59,7 @@ export default class MockProjectTagsService implements ProjectTagsService {
     id: ProjectTag["id"],
     data: UpdateProjectTag
   ): Promise<UpdateResult<ProjectTag>> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projectTags.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {
@@ -80,7 +80,7 @@ export default class MockProjectTagsService implements ProjectTagsService {
   }
 
   async delete(id: ProjectTag["id"]): Promise<DeleteResult> {
-    await new Promise((resolve) => setTimeout(resolve, MOCK_API_DELAY));
+    await delay();
 
     const index = projectTags.findIndex(({ id: _id }) => _id === id);
     if (index === -1) {
