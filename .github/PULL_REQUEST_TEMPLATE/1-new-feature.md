@@ -1,40 +1,67 @@
-# Feature addition
+# ✨ [FEATURE] <Brief Title>
 
-## Summary
+<!-- Provide a concise title above that summarizes the feature -->
 
-Briefly describe the feature being introduced.
+## 📝 Description
+<!-- A clear and concise description of the feature being introduced. -->
 
-## Rationale
+## 🎯 Purpose & Benefits
+<!-- Explain the problem this feature solves and the value it adds to the project. -->
+- 
 
-Explain the reasoning behind this feature and its benefits to the project.
+## 🔍 Implementation Details
+<!-- Technical details about the implementation approach. -->
+- 
 
-## Design Documentation
+## 📊 Testing
+<!-- Describe how you tested your changes. Include both automated and manual testing approaches. -->
 
-Link to any design documents or diagrams relevant to this feature.
+### Test Cases
+- [ ] Test case 1
+- [ ] Test case 2
 
-## Changes
+### Test Coverage
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
+- [ ] E2E tests added/updated
+- [ ] Manual testing completed
 
-List the major changes made in this pull request.
+## 🖼️ Visual Changes
+<!-- Add before/after screenshots or screen recordings if applicable -->
 
-## Impact
+| Before | After |
+|--------|-------|
+|        |       |
 
-Discuss any potential impacts this feature may have on existing functionalities.
+## 📚 Documentation
+- [ ] Code documentation updated
+- [ ] User documentation updated
+- [ ] API documentation updated
+- [ ] Changelog updated
 
-## Testing
+## 🧪 Quality Assurance
+- [ ] Code follows project style guide
+- [ ] Linter passes
+- [ ] TypeScript types are correct
+- [ ] No new TypeScript/ESLint warnings
+- [ ] No console errors in development
 
-Describe how the feature has been tested, including both automated and manual testing strategies.
+## 🔗 Related Issues & Dependencies
+<!-- List any related issues or dependencies -->
+- Fixes #
+- Related to #
+- Requires #
+- Blocked by #
 
-## Screenshots/Video
+## 📦 Deployment Notes
+<!-- Any special deployment considerations or requirements -->
+- [ ] Database migrations needed
+- [ ] Environment variables updated
+- [ ] Feature flags required
 
-Include screenshots or video demonstrating the new feature, if applicable.
+## 🚀 Rollback Plan
+<!-- Steps to revert if something goes wrong -->
+1. 
+## 📋 Additional Context
+<!-- Add any other context about the pull request here. -->
 
-## Checklist
-
-- [ ] Code follows the project's coding standards
-- [ ] Unit tests covering the new feature have been added
-- [ ] All existing tests pass
-- [ ] The documentation has been updated to reflect the new feature
-
-## Additional Notes
-
-Any additional information or context relevant to this PR.
