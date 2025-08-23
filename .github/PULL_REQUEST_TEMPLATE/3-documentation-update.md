@@ -1,32 +1,65 @@
-# Documentation update
+# 📚 [DOCS] <Brief Title>
 
-## Summary
+<!-- Provide a concise title that describes the documentation update -->
 
-Brief description of the documentation update and its purpose.
+## 📝 Summary
+<!-- Brief description of the documentation update and its purpose -->
 
-## Areas Affected
+## 📋 Areas Affected
+<!-- List the specific sections, pages, or components that were updated -->
+- 
 
-List the sections or pages of the documentation that are updated.
+## 🔍 Change Details
+<!-- Provide detailed information about the changes made -->
 
-## Details
+### Added
+- 
+### Updated
+- 
+### Removed
+- 
+## 🎯 Motivation
+<!-- Explain why these documentation changes are necessary -->
+- 
 
-Provide detailed information about the changes made to the documentation.
+## 🧪 Verification
+<!-- How can reviewers verify these changes? -->
+1. 
+2. 
 
-## Motivation
+## 🖼️ Visual Changes (if applicable)
+<!-- Add before/after screenshots for visual documentation changes -->
 
-Explain why these documentation changes are necessary.
+| Before | After |
+|--------|-------|
+|        |       |
 
-## Review Checklist
-
+## ✅ Review Checklist
 - [ ] Spelling and grammar are correct
-- [ ] All links are working and correct
-- [ ] Documentation accurately reflects the current state of the project
+- [ ] All links are working and properly formatted
+- [ ] Code examples are accurate and functional
+- [ ] Documentation matches the current codebase
 - [ ] Changes are clearly highlighted and easy to understand
+- [ ] All new features/APIs are documented
+- [ ] Deprecation notices are included if applicable
+- [ ] Version numbers are updated if needed
 
-## Screenshots
+## 📚 Related Documentation
+<!-- Link to any related documentation or related PRs -->
+- 
 
-Include before and after screenshots for significant visual changes, if applicable.
+## 📝 Additional Notes
+<!-- Any other information that might be helpful for reviewers -->
 
-## Additional Notes
+## 🔗 Related Issues
+<!-- List any related issues or PRs -->
+- Fixes #
+- Related to #
 
-Any other information that might be helpful for reviewers.
+## 📅 Release Notes
+<!-- Should these changes be mentioned in the release notes? -->
+- [ ] This change requires release notes
+- [ ] No release notes needed
+
+## 📋 Reviewer Notes
+<!-- Any specific notes for the reviewers -->
